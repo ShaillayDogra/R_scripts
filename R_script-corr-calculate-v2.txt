@@ -1,0 +1,175 @@
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+##### Phylum
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/1_PHYLUM")
+## data <- read.table("Phylum-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Phylum-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Phylum-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Phylum-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### Class
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/2_CLASS")
+## data <- read.table("Class-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### Order
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/3_ORDER")
+## data <- read.table("Order-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### Family
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/4_FAMILY")
+## data <- read.table("Family-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### Genus
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/5_GENUS")
+## data <- read.table("Genus-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### OTU
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/OTU")
+## data <- read.table("OTU-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+
+
+
+head(data)
+tail(data)
+
+
+##### TRANSPOSE
+tdata <- t(data)
+head(tdata)
+tail(tdata)
+
+n <- ncol(tdata)
+cols <- ncol(tdata)
+
+#### Create a matrix to store results
+resultpc <- matrix(nrow=n*n, ncol=16)  
+
+
+counter =1
+###
+###
+###
+for (i in 1:n){
+for (j in 1:n){
+####if (j<i){
+
+source <- rownames(data[i,])
+target <- rownames(data[j,])
+resultpc[counter,1] <- source
+resultpc[counter,2] <- target
+sourcesamplesize <- length(tdata[,i][tdata[,i] > 0])
+targetsamplesize <- length(tdata[,j][tdata[,j] > 0])
+resultpc[counter,3] <- sourcesamplesize
+resultpc[counter,4] <- targetsamplesize
+calcsize <- min(sourcesamplesize, targetsamplesize)
+resultpc[counter,5] <- calcsize
+
+sourcemean <- mean(tdata[,i])
+sourcenonzeromean <- mean(tdata[,i][tdata[,i] > 0])
+targetmean <- mean(tdata[,j])
+targetnonzeromean <- mean(tdata[,j][tdata[,j] > 0])
+
+sourcemedian <- median(tdata[,i])
+sourcenonzeromedian <- median(tdata[,i][tdata[,i] > 0])
+targetmedian <- median(tdata[,j])
+targetnonzeromedian <- mean(tdata[,j][tdata[,j] > 0])
+
+resultpc[counter,6] <- floor(sourcemean)  ## (to be used for plotting node-size)
+resultpc[counter,7] <- floor(targetmean)
+resultpc[counter,8] <- sourcemedian
+resultpc[counter,9] <- targetmedian
+resultpc[counter,10] <- sourcenonzeromean
+resultpc[counter,11] <- targetnonzeromean
+resultpc[counter,12] <- sourcenonzeromedian
+resultpc[counter,13] <- targetnonzeromedian
+
+pc <- cor(tdata[,i],tdata[,j], method="pearson", use="pairwise.complete.obs")
+
+resultpc[counter,14] <- round(abs(pc), digits=2)  ## (to be used for plotting edge-thickness)
+
+if (pc>0) {
+resultpc[counter,15] <- "pos"
+} else {
+resultpc[counter,15] <- "neg"
+}
+if (abs(pc)>0.3) {
+resultpc[counter,16] <- "TRUE"
+} else {
+resultpc[counter,16] <- "FALSE"
+}
+counter = counter + 1
+
+#### } # END of if statement
+} # END of for-loop
+} # END of for-loop
+
+
+rpc <- rbind(c("Source", "Target", "Sourcenonzerosample", "Targetnonzerosample", "Calculationsize", "SourceMean", "TargetMean", "SourceMedian", "TragetMedian", 
+"sourcenonzeromean", "targetnonzeromean", "sourcenonzeromedian",  "targetnonzeromedian", 
+"AbsPearsonCorrelation", "SignCorrelation", "Cutoffcorrelation"), resultpc)
+
+
+
+
+
+## Day3
+# write.table(rpc, "Phylum-rpc-D3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Class-rpc-D3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Order-rpc-D3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Family-rpc-D3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Genus-rpc-D3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "OTU-rpc-D3.txt", sep="\t", row.names=F, col.names=F)
+
+## Week3
+# write.table(rpc, "Phylum-rpc-W3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Class-rpc-W3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Order-rpc-W3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Family-rpc-W3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Genus-rpc-W3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "OTU-rpc-W3.txt", sep="\t", row.names=F, col.names=F)
+
+## Month3
+# write.table(rpc, "Phylum-rpc-M3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Class-rpc-M3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Order-rpc-M3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Family-rpc-M3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Genus-rpc-M3.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "OTU-rpc-M3.txt", sep="\t", row.names=F, col.names=F)
+
+## Month6
+# write.table(rpc, "Phylum-rpc-M6.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Class-rpc-M6.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Order-rpc-M6.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Family-rpc-M6.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "Genus-rpc-M6.txt", sep="\t", row.names=F, col.names=F)
+# write.table(rpc, "OTU-rpc-M6.txt", sep="\t", row.names=F, col.names=F)
+
+
+

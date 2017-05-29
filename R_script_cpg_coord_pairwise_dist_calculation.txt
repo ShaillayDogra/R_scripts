@@ -1,0 +1,54 @@
+
+###
+###
+###
+
+### SET the WORKING DIR
+setwd("D:/SHAILLAY/METHYLATION-BIOMARKER")
+
+### CLEAN SLATE
+rm(list=ls(all=TRUE))
+
+### READ the DATA FILE with CPG COORDINATES; 
+coord <-  read.table("cpg_coord_21.txt", header=TRUE)
+cpgs <- as.matrix(coord[,1])
+
+
+### CREATE a n*n MATRIX to STORE VALUES
+dim = nrow(coord) + 1
+matrix <- matrix(-1, nrow=dim, ncol=dim)
+
+
+### ROW and COLUMN HEADERS of PAIRWISE CPGs
+for (row in 2:dim) {
+print (row)
+for (col in 2:dim) {
+matrix[row,1] <- cpgs[row-1, 1]
+matrix[1,col] <- cpgs[col-1, 1]
+}
+}
+
+## TEST
+# matrix[1:10, 1:10]
+
+
+dim = nrow(coord)
+
+### The FOR LOOP
+for (row in 1:dim) {
+print(row)
+#print(coord[row, 2])
+
+for (col in 1:dim) {
+distance = coord[col, 2] - coord[row, 2]
+matrix[row+1,col+1] <- distance
+}
+}
+
+
+### TEST
+# matrix[1:10, 1:10]
+#
+
+write.table(matrix, "pairwise-CpG-distances-chr21-v2.txt")
+

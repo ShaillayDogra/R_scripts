@@ -1,0 +1,331 @@
+
+
+###
+###
+### Input file: individual results file at P,C,O,F,G,OTU
+###              for each of the pheno
+###              at each time point
+###
+###
+
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/ALL_TABLES/DAY-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/ALL_TABLES/WEEK-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/ALL_TABLES/MONTH-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/ALL_TABLES/MONTH-6")
+
+
+
+###
+### AntibioticsLabour
+###
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Phylum-Relative-Percent-vs-AntibioticsLabour-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x11 <- cbind(x1$Phylum, x1$p.value, x1$BH.FDR.p.value, x1$Taxon, x1$Bacteria, x1$rankID, x1$Level)
+
+ x2 <- read.table("Class-Relative-Percent-vs-AntibioticsLabour-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x22 <- cbind(x2$Class, x2$p.value, x2$BH.FDR.p.value, x2$Taxon, x2$Bacteria, x2$rankID, x2$Level)
+
+ x3 <- read.table("Order-Relative-Percent-vs-AntibioticsLabour-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x33 <- cbind(x3$Order, x3$p.value, x3$BH.FDR.p.value, x3$Taxon, x3$Bacteria, x3$rankID, x3$Level)
+
+
+ x4 <- read.table("Family-Relative-Percent-vs-AntibioticsLabour-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x44 <- cbind(x4$Family, x4$p.value, x4$BH.FDR.p.value, x4$Taxon, x4$Bacteria, x4$rankID, x4$Level)
+
+
+ x5 <- read.table("Genus-Relative-Percent-vs-AntibioticsLabour-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x55 <- cbind(x5$Genus, x5$p.value, x5$BH.FDR.p.value, x5$Taxon, x5$Bacteria, x5$rankID, x5$Level)
+
+
+ x6 <- read.table("OTU-Relative-Percent-vs-AntibioticsLabour-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x66 <- cbind(x6$OTU.W3, x6$p.value, x6$BH.FDR.p.value, x6$OTU, x6$Bacteria, x6$RankID, x6$Level)           #### NOTE: Different column names here!
+
+
+ncol(x11)
+ncol(x22)
+ncol(x33)
+ncol(x44)
+ncol(x55)
+ncol(x66)
+
+
+out <- rbind(x11, x22, x33, x44, x55, x66)
+head(out)
+
+
+out <- cbind(out, "AntibioticsLabour")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Week3-Relative-Percent", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Week3-Relative-Percent-vs-AntibioticsLabour-annotated.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here
+
+
+
+
+
+###
+### BirthOrder
+###
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Phylum-Relative-Percent-vs-BirthOrder-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x11 <- cbind(x1$Phylum, x1$p.value, x1$BH.FDR.p.value, x1$Taxon, x1$Bacteria, x1$rankID, x1$Level)
+
+ x2 <- read.table("Class-Relative-Percent-vs-BirthOrder-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x22 <- cbind(x2$Class, x2$p.value, x2$BH.FDR.p.value, x2$Taxon, x2$Bacteria, x2$rankID, x2$Level)
+
+ x3 <- read.table("Order-Relative-Percent-vs-BirthOrder-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x33 <- cbind(x3$Order, x3$p.value, x3$BH.FDR.p.value, x3$Taxon, x3$Bacteria, x3$rankID, x3$Level)
+
+
+ x4 <- read.table("Family-Relative-Percent-vs-BirthOrder-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x44 <- cbind(x4$Family, x4$p.value, x4$BH.FDR.p.value, x4$Taxon, x4$Bacteria, x4$rankID, x4$Level)
+
+
+ x5 <- read.table("Genus-Relative-Percent-vs-BirthOrder-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x55 <- cbind(x5$Genus, x5$p.value, x5$BH.FDR.p.value, x5$Taxon, x5$Bacteria, x5$rankID, x5$Level)
+
+
+ x6 <- read.table("OTU-Relative-Percent-vs-BirthOrder-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x66 <- cbind(x6$OTU.W3, x6$p.value, x6$BH.FDR.p.value, x6$OTU, x6$Bacteria, x6$RankID, x6$Level)           #### NOTE: Different column names here!
+
+
+ncol(x11)
+ncol(x22)
+ncol(x33)
+ncol(x44)
+ncol(x55)
+ncol(x66)
+
+
+out <- rbind(x11, x22, x33, x44, x55, x66)
+head(out)
+
+
+out <- cbind(out, "BirthOrder")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Week3-Relative-Percent", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Week3-Relative-Percent-vs-BirthOrder-annotated.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here
+
+
+
+
+
+
+### 
+### DeliveryMode
+###
+
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Phylum-Relative-Percent-vs-DeliveryMode-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x11 <- cbind(x1$Phylum, x1$p.value, x1$BH.FDR.p.value, x1$Taxon, x1$Bacteria, x1$rankID, x1$Level)
+
+ x2 <- read.table("Class-Relative-Percent-vs-DeliveryMode-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x22 <- cbind(x2$Class, x2$p.value, x2$BH.FDR.p.value, x2$Taxon, x2$Bacteria, x2$rankID, x2$Level)
+
+ x3 <- read.table("Order-Relative-Percent-vs-DeliveryMode-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x33 <- cbind(x3$Order, x3$p.value, x3$BH.FDR.p.value, x3$Taxon, x3$Bacteria, x3$rankID, x3$Level)
+
+
+ x4 <- read.table("Family-Relative-Percent-vs-DeliveryMode-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x44 <- cbind(x4$Family, x4$p.value, x4$BH.FDR.p.value, x4$Taxon, x4$Bacteria, x4$rankID, x4$Level)
+
+ x5 <- read.table("Genus-Relative-Percent-vs-DeliveryMode-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x55 <- cbind(x5$Genus, x5$p.value, x5$BH.FDR.p.value, x5$Taxon, x5$Bacteria, x5$rankID, x5$Level)
+
+
+ x6 <- read.table("OTU-Relative-Percent-vs-DeliveryMode-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x66 <- cbind(x6$OTU.W3, x6$p.value, x6$BH.FDR.p.value, x6$OTU, x6$Bacteria, x6$RankID, x6$Level)           #### NOTE: Different column names here!
+
+
+ncol(x11)
+ncol(x22)
+ncol(x33)
+ncol(x44)
+ncol(x55)
+ncol(x66)
+
+
+out <- rbind(x11, x22, x33, x44, x55, x66)
+head(out)
+
+out <- cbind(out, "DeliveryMode")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Week3-Relative-Percent", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+head(out)
+
+write.table(out, "Week3-Relative-Percent-vs-DeliveryMode-annotated.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here
+
+
+
+
+
+
+###
+### Ethnicity
+###
+
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Phylum-Relative-Percent-vs-Ethnicity-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x11 <- cbind(x1$Phylum, x1$p.value, x1$BH.FDR.p.value, x1$Taxon, x1$Bacteria, x1$rankID, x1$Level)
+
+ x2 <- read.table("Class-Relative-Percent-vs-Ethnicity-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x22 <- cbind(x2$Class, x2$p.value, x2$BH.FDR.p.value, x2$Taxon, x2$Bacteria, x2$rankID, x2$Level)
+
+ x3 <- read.table("Order-Relative-Percent-vs-Ethnicity-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x33 <- cbind(x3$Order, x3$p.value, x3$BH.FDR.p.value, x3$Taxon, x3$Bacteria, x3$rankID, x3$Level)
+
+ x4 <- read.table("Family-Relative-Percent-vs-Ethnicity-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x44 <- cbind(x4$Family, x4$p.value, x4$BH.FDR.p.value, x4$Taxon, x4$Bacteria, x4$rankID, x4$Level)
+
+ x5 <- read.table("Genus-Relative-Percent-vs-Ethnicity-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x55 <- cbind(x5$Genus, x5$p.value, x5$BH.FDR.p.value, x5$Taxon, x5$Bacteria, x5$rankID, x5$Level)
+
+ x6 <- read.table("OTU-Relative-Percent-vs-Ethnicity-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x66 <- cbind(x6$OTU.W3, x6$p.value, x6$BH.FDR.p.value, x6$OTU, x6$Bacteria, x6$RankID, x6$Level)           #### NOTE: Different column names here!
+
+ncol(x11)
+ncol(x22)
+ncol(x33)
+ncol(x44)
+ncol(x55)
+ncol(x66)
+
+
+out <- rbind(x11, x22, x33, x44, x55, x66)
+head(out)
+
+
+out <- cbind(out, "Ethnicity")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Week3-Relative-Percent", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Week3-Relative-Percent-vs-Ethnicity-annotated.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here
+
+
+
+
+
+
+
+###
+### Gender
+###
+
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Phylum-Relative-Percent-vs-Gender-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x11 <- cbind(x1$Phylum, x1$p.value, x1$BH.FDR.p.value, x1$Taxon, x1$Bacteria, x1$rankID, x1$Level)
+
+ x2 <- read.table("Class-Relative-Percent-vs-Gender-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x22 <- cbind(x2$Class, x2$p.value, x2$BH.FDR.p.value, x2$Taxon, x2$Bacteria, x2$rankID, x2$Level)
+
+ x3 <- read.table("Order-Relative-Percent-vs-Gender-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x33 <- cbind(x3$Order, x3$p.value, x3$BH.FDR.p.value, x3$Taxon, x3$Bacteria, x3$rankID, x3$Level)
+
+
+ x4 <- read.table("Family-Relative-Percent-vs-Gender-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x44 <- cbind(x4$Family, x4$p.value, x4$BH.FDR.p.value, x4$Taxon, x4$Bacteria, x4$rankID, x4$Level)
+
+
+ x5 <- read.table("Genus-Relative-Percent-vs-Gender-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x55 <- cbind(x5$Genus, x5$p.value, x5$BH.FDR.p.value, x5$Taxon, x5$Bacteria, x5$rankID, x5$Level)
+
+
+ x6 <- read.table("OTU-Relative-Percent-vs-Gender-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x66 <- cbind(x6$OTU.W3, x6$p.value, x6$BH.FDR.p.value, x6$OTU, x6$Bacteria, x6$RankID, x6$Level)           #### NOTE: Different column names here!
+
+
+ncol(x11)
+ncol(x22)
+ncol(x33)
+ncol(x44)
+ncol(x55)
+ncol(x66)
+
+
+out <- rbind(x11, x22, x33, x44, x55, x66)
+head(out)
+
+
+out <- cbind(out, "Gender")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Week3-Relative-Percent", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Week3-Relative-Percent-vs-Gender-annotated.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here
+
+
+
+
+
+
+###
+### typeoffeeds
+###
+
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Phylum-Relative-Percent-vs-Month6typeoffeeds-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x11 <- cbind(x1$Phylum, x1$p.value, x1$BH.FDR.p.value, x1$Taxon, x1$Bacteria, x1$rankID, x1$Level)
+
+ x2 <- read.table("Class-Relative-Percent-vs-Month6typeoffeeds-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x22 <- cbind(x2$Class, x2$p.value, x2$BH.FDR.p.value, x2$Taxon, x2$Bacteria, x2$rankID, x2$Level)
+
+ x3 <- read.table("Order-Relative-Percent-vs-Month6typeoffeeds-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x33 <- cbind(x3$Order, x3$p.value, x3$BH.FDR.p.value, x3$Taxon, x3$Bacteria, x3$rankID, x3$Level)
+
+
+ x4 <- read.table("Family-Relative-Percent-vs-Month6typeoffeeds-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x44 <- cbind(x4$Family, x4$p.value, x4$BH.FDR.p.value, x4$Taxon, x4$Bacteria, x4$rankID, x4$Level)
+
+
+ x5 <- read.table("Genus-Relative-Percent-vs-Month6typeoffeeds-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x55 <- cbind(x5$Genus, x5$p.value, x5$BH.FDR.p.value, x5$Taxon, x5$Bacteria, x5$rankID, x5$Level)
+
+
+ x6 <- read.table("OTU-Relative-Percent-vs-Month6typeoffeeds-Results-annotated.csv", header=TRUE, as.is=TRUE, sep=",")
+ x66 <- cbind(x6$OTU.W3, x6$p.value, x6$BH.FDR.p.value, x6$OTU, x6$Bacteria, x6$RankID, x6$Level)           #### NOTE: Different column names here!
+
+
+ncol(x11)
+ncol(x22)
+ncol(x33)
+ncol(x44)
+ncol(x55)
+ncol(x66)
+
+out <- rbind(x11, x22, x33, x44, x55, x66)
+head(out)
+
+
+out <- cbind(out, "Month6typeoffeeds")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Week3-Relative-Percent", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+head(out)
+
+write.table(out, "Week3-Relative-Percent-vs-Week1typeoffeeds-annotated.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here
+
+
+
+

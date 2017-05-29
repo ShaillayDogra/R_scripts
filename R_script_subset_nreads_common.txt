@@ -1,0 +1,64 @@
+
+
+setwd( "/home/shaillay/RRBS/ANNOT/")
+
+rm(list=ls(all=TRUE))
+
+
+## Read the files
+file1 <- read.table("010_14020-annot.txt", header=TRUE)
+#
+file2 <- read.table("010_20638-annot.txt", header=TRUE)
+#
+file3 <- read.table("010_20905-annot.txt", header=TRUE)
+#
+file4 <- read.table("010_21707-annot.txt", header=TRUE)
+#
+file5 <- read.table("010_21708-annot.txt", header=TRUE)
+#
+file6 <- read.table("010_21979-annot.txt", header=TRUE)
+#
+file7 <- read.table("010_22183-annot.txt", header=TRUE)
+#
+
+
+# only for file1 with 2 extra columns
+tmp <- file1[, -c(6,7)]
+file1 <- tmp
+
+
+
+cut = 200
+
+tmp1 <- subset(file1, file1[,4]>=cut)
+tmp2 <- subset(file2, file2[,4]>=cut)
+tmp3 <- subset(file3, file3[,4]>=cut)
+tmp4 <- subset(file4, file4[,4]>=cut)
+tmp5 <- subset(file5, file5[,4]>=cut)
+tmp6 <- subset(file6, file6[,4]>=cut)
+tmp7 <- subset(file7, file7[,4]>=cut)
+
+
+a <- paste(tmp1[,2],tmp1[,3], sep=".")
+b <- paste(tmp2[,2],tmp2[,3], sep=".")
+c <- paste(tmp3[,2],tmp3[,3], sep=".")
+d <- paste(tmp4[,2],tmp4[,3], sep=".")
+e <- paste(tmp5[,2],tmp5[,3], sep=".")
+f <- paste(tmp6[,2],tmp6[,3], sep=".")
+g <- paste(tmp7[,2],tmp7[,3], sep=".")
+
+
+library(VennDiagram)
+venn.diagram(list(A=a, B=b, C=c, D=d), "Venn.tiff")
+
+ab <- match(a, b)
+overlap_ab = length(na.omit(ab)) / length(a)
+
+matrix <- matrix(nrow=7, ncol=7, -1)
+
+
+
+
+##
+
+

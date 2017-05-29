@@ -1,0 +1,98 @@
+
+
+###
+### CHANGE timepoint
+###
+### CHANGE I/O Files: P-C-O-F-G-O
+### 
+### CHANGE Label File: P-C-O-F-G-O
+###
+###
+###
+
+
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/RESULTS/ALL_TABLES/DAY-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/RESULTS/ALL_TABLES/WEEK-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/RESULTS/ALL_TABLES/MONTH-3")
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/RESULTS/ALL_TABLES/MONTH-6")
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+
+###
+### FUNCTION TO ADD LABEL
+###
+addlabel <- function(x1, y) {
+x2 <- x1[ do.call(order, x1), ] ### CAUTION - this or-der is statisitcal function, not taxa level
+m1 <- match(y[,1],x2[,1])
+z1 <- rbind()
+n <- length(m1)
+for (i in 1:n){
+if (is.na(m1[i])==FALSE)
+	{ z1 <- rbind(z1, y[i,])
+  }
+}
+z2 <- z1[ do.call(order, z1), ]  ### CAUTION  - this or-der is statisitcal function, not taxa level
+out <- cbind(x2, z2)
+out
+}
+###
+###
+###
+
+
+
+
+
+### CHANGE according to taxa-level working with!!!
+##
+y <- read.table("OTU.txt", header=TRUE)
+y
+
+
+
+
+x1 <- read.table("OTU-M6-Relative-Percent-vs-AntibioticsLabour-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+out
+write.table(out, "OTU-M6-Relative-Percent-vs-AntibioticsLabour-Results-annotated.csv", sep=",", row.names=FALSE)
+
+
+x1 <- read.table("OTU-M6-Relative-Percent-vs-BirthOrder-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+out
+write.table(out, "OTU-M6-Relative-Percent-vs-BirthOrder-Results-annotated.csv", sep=",", row.names=FALSE)
+
+
+x1 <- read.table("OTU-M6-Relative-Percent-vs-DeliveryMode-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+out
+write.table(out, "OTU-M6-Relative-Percent-vs-DeliveryMode-Results-annotated.csv", sep=",", row.names=FALSE)
+
+
+x1 <- read.table("OTU-M6-Relative-Percent-vs-Ethnicity-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+out
+write.table(out, "OTU-M6-Relative-Percent-vs-Ethnicity-Results-annotated.csv", sep=",", row.names=FALSE)
+
+
+x1 <- read.table("OTU-M6-Relative-Percent-vs-Gender-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+out
+write.table(out, "OTU-M6-Relative-Percent-vs-Gender-Results-annotated.csv", sep=",", row.names=FALSE)
+
+
+x1 <- read.table("OTU-M6-Relative-Percent-vs-Month6typeoffeeds-Results.csv", header=TRUE, as.is=TRUE, sep=",")   ###>>>#### CHANGE file name here!
+out <- addlabel(x1, y)
+out
+write.table(out, "OTU-M6-Relative-Percent-vs-Month6typeoffeeds-Results-annotated.csv", sep=",", row.names=FALSE)  ###>>>#### CHANGE file name here!
+
+

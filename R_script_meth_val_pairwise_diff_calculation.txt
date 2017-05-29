@@ -1,0 +1,53 @@
+
+###
+###
+###
+
+### SET the WORKING DIR
+setwd("D:/SHAILLAY/METHYLATION-BIOMARKER/CHR21")
+
+### READ the DATA FILE with METHYLATION VALUES for ALL SAMPLES
+meth <-  read.table("met_vals_chr21.txt", header=TRUE)
+#head(meth)
+
+
+
+### CREATE a MATRIX to STORE AVERAGE METHYLATION VALUES
+dim = nrow(meth)
+methmatrix <- matrix(-1, nrow=dim, ncol=1)
+
+
+### AVERAGE the METHYLATION VALUES for SAMPLES
+for (i in 1:dim) {
+mean = mean(as.numeric(meth[i, 2:57]))
+methmatrix[i,1] = mean
+}
+
+
+### CREATE a MATRIX to STORE DISTANCE VALUES
+dim = nrow(meth)
+distmatrix <- matrix(-1, nrow=dim, ncol=dim)
+
+
+### The FOR LOOP
+for (i in 1:dim) {
+print(i)
+#print(methmatrix[i, 1])
+
+for (k in 1:dim) {
+distance = methmatrix[k, 1] - methmatrix[i, 1]
+#print(distance)
+distmatrix[i,k] = abs(distance)
+
+}
+}
+
+### TEST
+# distmatrix[1,]
+#
+
+
+write.table(distmatrix, "pairwise-meth-distances-21.txt")
+
+
+

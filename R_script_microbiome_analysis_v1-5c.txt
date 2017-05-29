@@ -1,0 +1,317 @@
+
+
+####################################################
+###
+### Takes in files pre-split by time 
+### Data file pre-split
+### Pheno file pre-split
+###
+### Continuous variables
+### ANOVA
+###
+### takes all pheno as a list
+###
+### Change input "Data" file yourself!!
+### Change "pheno" file yourself!!
+###
+### Relative-Percent/Filtered Data
+###
+###
+####################################################
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+
+### FILES DIRECTORY                                                                             ####>>>>#### CHANGE directory HERE!!
+## setwd("D:/IZZU/TAXA/1_PHYLUM")
+## setwd("D:/IZZU/TAXA/2_CLASS")
+## setwd("D:/IZZU/TAXA/3_ORDER")
+## setwd("D:/IZZU/TAXA/4_FAMILY")
+## setwd("D:/IZZU/TAXA/5_GENUS")
+ setwd("D:/IZZU/TAXA/OTU")
+
+
+
+################################
+##### READ DATA & PHENO FILES
+###
+### RELATIVE-PERCENT FILEs
+###
+##
+##--Day3  #### CHANGE HERE!!
+## data <- read.table("Phylum-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+##
+## setwd("D:/IZZU/PHENO")
+## phenodata <- read.table("Day3-pheno.txt", header=TRUE, sep="\t")
+##
+
+
+
+
+##--Week3  #### CHANGE HERE!!
+## data <- read.table("Phylum-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+##
+## setwd("D:/IZZU/PHENO")
+## phenodata <- read.table("Week3-pheno.txt", header=TRUE, sep="\t")
+##
+
+
+
+##--Month3  #### CHANGE HERE!!
+## data <- read.table("Phylum-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+##
+## setwd("D:/IZZU/PHENO")
+## phenodata <- read.table("Month3-pheno.txt", header=TRUE, sep="\t")
+##
+
+
+
+##--Month6  #### CHANGE HERE!!
+## data <- read.table("Phylum-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+##
+## setwd("D:/IZZU/PHENO")
+## phenodata <- read.table("Month6-pheno.txt", header=TRUE, sep="\t")
+##
+
+
+
+
+
+### Check Data
+dim(data)
+data[1:5, 1:5]
+
+
+##### TRANSPOSE
+tdata <- t(data)
+tdata[1:5, 1:5]
+
+### Check Data/ Pheno
+dim(phenodata)
+phenodata[1:5, 1:10]
+
+tail(tdata)
+phenodata[65:75, 1:10]
+
+
+
+
+##
+#### List of Phenotypes - Continuous Variables
+##
+#
+list <- which(colnames(phenodata) %in% c("GA-calculated",
+"ogtt_26w_test1_fast_mmolL",
+"ogtt_26w_test1_2hr_mmolL",
+"OGTT_fast_category",
+"OGTT_2hr_category",
+"birth_weight.kg",
+"wk3_weight.kg",
+"mth3_weight.kg",
+"mth6_weight.kg",
+"mth9_weight.kg",
+"mth12_weight.kg",
+"mth15_weight.kg",
+"mth18_weight.kg",
+"mth24_weight.kg",
+"birth_length",
+"wk3_mean.length",
+"mth3_mean.length",
+"mth6_mean.length",
+"mth9_mean.length",
+"mth12_mean.length",
+"mth15_mean.length",
+"mth18_mean.length",
+"mth24_mean.length",
+"birth_BMI",
+"wk3_BMI",
+"mth3_BMI",
+"mth6_BMI",
+"mth9_BMI",
+"mth12_BMI",
+"mth15_BMI",
+"mth18_BMI",
+"mth24_BMI",
+"GUSTO.birth_weight.SDS",
+"GUSTO.wk3_weight.SDS",
+"GUSTO.mth3_weight.SDS",
+"GUSTO.mth6_weight.SDS",
+"GUSTO.mth9_weight.SDS",
+"GUSTO.mth12_weight.SDS",
+"GUSTO.mth15_weight.SDS",
+"GUSTO.mth18_weight.SDS",
+"GUSTO.mth24_weight.SDS",
+"GUSTO.birth_length.SDS",
+"GUSTO.wk3_length.SDS",
+"GUSTO.mth3_length.SDS",
+"GUSTO.mth6_length.SDS",
+"GUSTO.mth9_length.SDS",
+"GUSTO.mth12_length.SDS",
+"GUSTO.mth15_length.SDS",
+"GUSTO.mth18_length.SDS",
+"GUSTO.mth24_length.SDS",
+"GUSTO.birth_BMI.SDS",
+"GUSTO.wk3_BMI.SDS",
+"GUSTO.mth3_BMI.SDS",
+"GUSTO.mth6_BMI.SDS",
+"GUSTO.mth9_BMI.SDS",
+"GUSTO.mth12_BMI.SDS",
+"GUSTO.mth15_BMI.SDS",
+"GUSTO.mth18_BMI.SDS",
+"GUSTO.mth24_BMI.SDS",
+"birth.weight_WHO.zscore",
+"wk3.weight_WHO.zscore",
+"mth3.weight_WHO.zscore",
+"mth6.weight_WHO.zscore",
+"mth9.weight_WHO.zscore",
+"mth12.weight_WHO.zscore",
+"mth15.weight_WHO.zscore",
+"mth18.weight_WHO.zscore",
+"mth24.weight_WHO.zscore",
+"birth.length_WHO.zscore",
+"wk3.length_WHO.zscore",
+"mth3.length_WHO.zscore",
+"mth6.length_WHO.zscore",
+"mth9.length_WHO.zscore",
+"mth12.length_WHO.zscore",
+"mth15.length_WHO.zscore",
+"mth18.length_WHO.zscore",
+"mth24.length_WHO.zscore",
+"birth.BMI_WHO.zscore",
+"wk3.BMI_WHO.zscore",
+"mth3.BMI_WHO.zscore",
+"mth6.BMI_WHO.zscore",
+"mth9.BMI_WHO.zscore",
+"mth12.BMI_WHO.zscore",
+"mth15.BMI_WHO.zscore",
+"mth18.BMI_WHO.zscore",
+"mth24.BMI_WHO.zscore"
+))
+
+
+print(length(list))
+
+
+
+
+
+
+########
+########
+####
+####
+for (i in list){
+#print (i)
+pheno <- phenodata[,i]
+phenoname <- colnames(phenodata)[i]
+
+dostats <- function(pheno, tdata, phenoname) {
+###--------------------------------#####
+dataAnova <- cbind(tdata, pheno)
+cols <- ncol(dataAnova)
+#dataAnova[1:25, 160:161]
+
+### TO STORE RESULTS
+n = 5 ## CHECK repeat-dimensions
+result <- matrix(rep(NA, (cols-1)*n), ncol = n)  
+rows <- nrow(dataAnova)
+
+
+###
+### BEGIN ANOVA SECTION ###
+###
+#
+for (i in 1:(cols-1)) {     ### Last Column is Phenotype
+#print(i)
+ydat <- dataAnova[,i]
+length(ydat)
+
+result[i, 1] <- as.character(colnames(dataAnova)[i]) ### Get Hold of "Bacteria" name
+model <- lm(ydat ~ pheno)
+anova(model)
+fita <- anova(model)
+result[i, 5] <- fita$Pr[1]  ### Get Hold of ANOVA p-value, check col idx as you want in output
+
+fit <- summary(model)
+nr <- nrow(fit$coeff)
+#print(fit$coeff[2,1])
+
+correlation <- cor(ydat, pheno, method="spearman", use="pairwise.complete.obs")     ## Spearman-Rank-Correlation; use pairwise-observations excluding NA
+result[i, 2] <- correlation  ### Get Hold of correlation, check col idx as you want in output
+result[i, 3] <- fit$r.squared  ### Get Hold of R-squared, check col idx as you want in output
+result[i, 4] <- fit$coeff[2,1]
+
+
+}   ## END OUTER for LOOP
+#
+###
+### END ANOVA SECTION ###
+###
+
+
+### FDR CORRECTION
+fdrp <- p.adjust((result[,5]), method = "BH")   ### We are taking ANOVA p-value here to correct, check col idx!!
+output <- cbind(result, fdrp, phenoname, "OTU", "Month6")                                              ####>>>>#### CHANGE taxa & time-string HERE!!
+
+
+colheader <- paste("OTU-Month6-Relative-Percent-vs-", phenoname, sep = "")                          ####>>>>#### CHANGE taxa & time-string HERE!!
+colnames(output) <- c("Bacteria", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Phenotype", "Taxa", "Timepoint")
+
+
+
+### RESULTS DIRECTORY                                                                             ####>>>>#### CHANGE directory HERE!!
+## setwd("D:/IZZU/RESULTS/1_PHYLUM")                      
+## setwd("D:/IZZU/RESULTS//2_CLASS")                      
+## setwd("D:/IZZU/RESULTS/3_ORDER")                      
+## setwd("D:/IZZU/RESULTS/4_FAMILY")                      
+## setwd("D:/IZZU/RESULTS/5_GENUS")                      
+ setwd("D:/IZZU/RESULTS/OTU")                      
+
+
+output_file <- paste("OTU-Month6-Relative-Percent-vs-", phenoname, ".csv", sep = "")            ####>>>>#### CHANGE taxa & time-string HERE!!
+write.table(output, output_file, sep=",", row.names = F)      
+
+
+###--------------------------------#####
+}
+
+dostats(pheno, tdata, phenoname)
+
+}
+
+
+##
+####
+####
+####
+####
+
+
+
+
+

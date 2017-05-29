@@ -1,0 +1,46 @@
+
+
+###
+###
+### Input file: P-C-O-F-G-OTU merged pheno files
+###             6 files
+###             a given time-point
+###
+###
+
+
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/DAY-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/WEEK-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/MONTH-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/MONTH-6")
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Month6-Relative-Percent-vs-AntibioticsLabour-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Month6-Relative-Percent-vs-BirthOrder-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Month6-Relative-Percent-vs-DeliveryMode-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Month6-Relative-Percent-vs-Ethnicity-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Month6-Relative-Percent-vs-Gender-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("Month6-Relative-Percent-vs-Month6typeoffeed-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ 
+
+ncol(x1)
+ncol(x2)
+ncol(x3)
+ncol(x4)
+ncol(x5)
+ncol(x6)
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+
+
+out <- cbind(out, "Month6")   ####>>>#### Ensure appropriate time-stamp here
+
+
+colnames(out) <- c("Bacteria-Relative-Percent", "p-value", "Average-1", "StdDev-1", "Average-2", "StdDev-2", "Average-3", "StdDev-3", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno", "Timepoint")  ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Month6-Relative-Percent-vs-cat-phenos-merged.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here

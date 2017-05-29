@@ -1,0 +1,70 @@
+
+
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA")
+
+
+rm(list=ls(all=TRUE))
+
+
+phenodata <- read.table("regressions_Gusto-v2.txt", header=TRUE, sep="\t")
+head(phenodata)
+
+
+#xidx <- which(colnames(phenodata) %in% c("GAcalculated"))
+#xidx <- which(colnames(phenodata) %in% c("Deliverymode"))
+#xidx
+
+
+
+
+x1idx <- which(colnames(phenodata) %in% c("Deliverymode"))
+x2idx <- which(colnames(phenodata) %in% c("GAcalculated"))
+x1idx
+x2idx
+
+
+# yidx <- which(colnames(phenodata) %in% c("InfantWeight12Months"))
+# yidx <- which(colnames(phenodata) %in% c("Length12Month"))
+# yidx <- which(colnames(phenodata) %in% c("Skinfoldat18months"))
+
+yidx
+
+
+#x <- phenodata[,xidx]
+
+x1 <- phenodata[,x1idx]
+x2 <- phenodata[,x2idx]
+
+y <- phenodata[,yidx]
+
+
+#model <- lm(y ~ x)
+
+model <- lm(y ~ x1 + x2 )
+
+summary(model)
+
+
+
+
+
+pc <- cor(y, x, method="pearson", use="pairwise.complete.obs") 
+pc
+
+sc <- cor(y, x, method="spearman", use="pairwise.complete.obs") 
+sc
+
+
+fit <- summary(model)
+
+fit$r.squared  ### Get Hold of R-squared
+fit$coeff[2,1] ### Coefficient
+
+
+anova(model)
+fita <- anova(model)
+fita$Pr[1]   ### Get Hold of ANOVA p-value
+
+

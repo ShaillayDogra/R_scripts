@@ -1,0 +1,28 @@
+
+
+coord <- read.table("coord_21.txt", header=TRUE)
+
+
+dim = max(coord)
+
+dummy <- matrix(0, nrow=dim, ncol=1)
+# dim(dummy)
+
+iter = nrow(coord)
+
+iter=5
+
+for (k in 1:iter){
+print (k)
+
+val <- (coord[k,1])
+print (val)
+
+dummy[val,1] <- val
+
+}
+
+
+write.table(dummy, "test.txt")
+
+

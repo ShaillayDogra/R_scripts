@@ -1,0 +1,56 @@
+###
+###
+###
+
+
+setwd("D:/METHYLATION-BIOMARKER")
+
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("DNAcopy")
+
+library("DNAcopy")
+
+
+rm(list=ls(all=TRUE))
+
+
+data <- read.table("methylation_biomarker_beta_pseudo21.txt", header=TRUE)
+
+
+CNA.object <- CNA(cbind(data$X010.04002, data$X010.14020, data$X010.20001, data$X010.20148, data$X010.20235, data$X010.20358, data$X010.20367), 
+data$chromosome, data$position, data.type="logratio", 
+sampleid=c("X010.04002", "X010.14020", "X010.20001", "X010.20148", "X010.20235", "X010.20358", "X010.20367"))
+
+
+
+CNA.object <- CNA(cbind(data$sample), data$chromosome, data$position, data.type="logratio", sampleid=c("sample"))
+
+
+
+smoothed.CNA.object <- smooth.CNA(CNA.object)
+
+
+segment.smoothed.CNA.object <- segment(smoothed.CNA.object, verbose=1)
+
+plot(segment.smoothed.CNA.object, plot.type="w")
+
+plot(segment.smoothed.CNA.object, plot.type="s")
+
+
+
+###
+### BCP
+###
+
+source("http://bioconductor.org/biocLite.R")
+biocLite("bcp")
+library("bcp")
+
+
+setwd("D:/METHYLATION-BIOMARKER/CHR21")
+data <- read.table("chr_21_cpg_coords_vals_tmp.txt", header=TRUE)
+x <- as.vector(data$avg)
+y <- bcp(x, w0 = 0.2, p0 = 0.2, burnin = 50, mcmc = 500, return.mcmc = FALSE)
+plot.bcp(y)
+

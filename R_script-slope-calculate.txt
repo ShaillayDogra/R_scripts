@@ -1,0 +1,87 @@
+
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/1_PHYLUM")
+data <- read.table("Phylum-QCed-relative-percent-v2.txt", header=TRUE, sep="\t")
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/1_PHYLUM/SLOPE-PLOTS")
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/2_CLASS")
+data <- read.table("Class-QCed-relative-percent-v2.txt", header=TRUE, sep="\t")
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/2_CLASS/SLOPE-PLOTS")
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/3_ORDER")
+data <- read.table("Order-QCed-relative-percent-v2.txt", header=TRUE, sep="\t")
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/3_ORDER/SLOPE-PLOTS")
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/4_FAMILY")
+data <- read.table("Family-QCed-relative-percent-v2.txt", header=TRUE, sep="\t")
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/4_FAMILY/SLOPE-PLOTS")
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/5_GENUS")
+data <- read.table("Genus-QCed-relative-percent-v2.txt", header=TRUE, sep="\t")
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/5_GENUS/SLOPE-PLOTS")
+
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/OTU")
+data <- read.table("OTU-relative-percent-v2.txt", header=TRUE, sep="\t")
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/OTU/SLOPE-PLOTS")
+
+
+head(data)
+tail(data)
+
+
+list <- unique(data[,2])
+
+
+### TO STORE RESULTS
+n = (ncol(data)-4) +1        ## CHECK repeat-dimensions according to how many bacteria
+rows <- 76
+result <- matrix(rep(NA, (rows)*n), ncol = n)  
+
+
+####
+#### FOR LOOPS
+####
+for (i in (1:length(list)))
+{
+
+sample <- as.character(list[i])
+result[i,1] <- sample
+
+subset <- subset(data, data[,2] == list[i])
+if (nrow(subset)==4){
+x <- subset[,4]
+
+for (j in (1:(ncol(data)-4)))
+{
+y <- subset[,j+4]
+
+slope <- lm(y ~ x)$coeff[2] 
+bacteria <- colnames(data[j+4])
+result[i,j+1] <- slope
+
+
+####  PLOT
+outplot <- paste(sample, "-", bacteria, ".jpeg", sep ="")                       
+title <- paste(sample, "-", bacteria,sep ="")                                   
+jpeg(file = outplot)
+plot(x,y, xlab="Time", ylab="Relative-Percent", main=title, sub="D3-W3-M3-M6", type="b", col="red", col.main= "blue", col.sub = "red") 
+dev.off()
+}
+}
+}
+
+
+
+
+header <- colnames(data)
+out <- rbind(c("sample", header[-(1:4)]), result)
+write.table(out, "OTU-slopes.csv", sep=",")
+
+

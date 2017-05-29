@@ -1,0 +1,44 @@
+
+
+###
+###
+### Input file: P-C-O-F-G-OTU merged pheno files
+###             6 files
+###             a given time-point
+###
+###
+
+
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/DAY-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/WEEK-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-6")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+ x1 <- read.table("AntibioticsLabour-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("BirthOrder-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("DeliveryMode-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Ethnicity-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Gender-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("Month6typeoffeeds-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ 
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+
+
+out <- cbind(out, "Month6")             ####>>>#### Ensure appropriate time-stamp here
+
+
+
+
+colnames(out) <- c("Bacteria-Month6", "p-value", "Average", "Std-dev", "Average", "Std-dev", "Average", "Std-dev", "Average", "Std-dev", "Average", "Std-dev", "BH-FDR p-value", "Pheno", "Timepoint")      ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Month6-Relative-Percent-vs-cat-phenos-merged.csv", sep=",", row.names=FALSE)      ####>>>#### Change time-stamp here

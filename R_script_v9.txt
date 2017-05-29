@@ -1,0 +1,135 @@
+
+
+rm(list=ls(all=TRUE))
+
+### READ in CPG-ISLAND ANNOTATION
+setwd("D:/RRBS/UCSC-CPG-TABLE")
+cpgIsland <- read.table("UCS_hgTables_cpgIsland_mod.txt", header=TRUE)
+
+
+### READ in 1 SAMPLE FILE
+setwd("D:/RRBS/RRBS-mod")
+sample <- read.table("010_14020.txt")
+rows <- nrow(sample)
+
+## for testing with small data
+test <- sample[1:10000,]
+rows <- nrow(test)
+
+### DUMMY MATRIX TO STORE VALUES
+matrix <- matrix(-1, nrow=rows, ncol=2)
+
+### variables to hold counts
+islandCount = 0
+NshoreCount = 0
+NshelfCount = 0
+SshoreCount = 0
+SshelfCount = 0
+
+###
+### Here we do all the lookup
+###
+
+for (chr in 1:24){    ### Subset data for each chromosome
+print("===== chromsome =====")
+print(chr)
+
+samplesubset <- subset(sample, sample[,1] == chr)
+#samplesubset <- subset(test, test[,1] == chr)
+cpgsubset <- subset(cpgIsland, cpgIsland[,1] == chr)
+
+samplerows <- nrow(samplesubset)
+
+for (srow in 1:samplerows){    ## Start loop through sample rows
+#print (srow)
+
+ibp <- samplesubset[srow,2]   # input bp to check annotation
+
+cpgsubset1 <- subset(cpgsubset, cpgsubset[,2] <= ibp)   ## Get data which has  NShelfEnd <= current base-pair position
+cpgsubset2 <- subset(cpgsubset1, cpgsubset1[,7] >= ibp) ## Get data which has  SShelfEnd >= current base-pair position
+
+if (nrow(cpgsubset2) == 0){  ## Proceed if have data; if not then implies no annotation
+next
+}
+
+cpgrows <- nrow(cpgsubset2)
+
+for (crow in 1:cpgrows) {      ## Start another loop through CpG Annotation
+		
+	IslandStart<- cpgsubset2[crow,4]
+	IslandEnd <- cpgsubset2[crow,5]	
+	SShoreEnd <- cpgsubset2[crow,6]
+	SShelfEnd <- cpgsubset2[crow,7]
+	NShoreEnd <- cpgsubset2[crow,3]
+	NShelfEnd <- cpgsubset2[crow,2]
+
+	
+		if (ibp >= IslandStart) {       ### BP is GTE to CpGIsland Start
+
+ 		if (ibp <= IslandEnd) {    ### BP is LTE to CpGIsland End
+ 		#print ("Island")
+		matrix[srow, 1] <- "Island"		
+		islandCount = islandCount + 1
+		matrix[srow, 2] <- IslandEnd
+		} 
+
+		else if (ibp <= SShoreEnd) {    ### AND/OR BP is LTE to SShore End		
+		#print ("SShoreEnd")
+		matrix[srow, 1] <- "SShoreEnd"
+		SshoreCount = SshoreCount + 1 
+		matrix[srow, 2] <- SShoreEnd
+
+		}
+
+		else if (ibp <= SShelfEnd) {    ### AND/OR BP is LTE to SShelf End
+		#print ("SShelfEnd")
+		matrix[srow, 1] <- "SShelfEnd"
+		SshelfCount = SshelfCount + 1
+		matrix[srow, 2] <- SShelfEnd
+		}
+
+	
+	} ## END of IF - ibp >= IslandStart
+
+	
+
+	if (ibp < IslandStart) {       ### BP is GTE to CpGIsland Start
+ 
+		if (ibp >= NShoreEnd) {    ### AND/OR BP is GTE to NShore End		
+		#print ("NShoreEnd")
+		matrix[srow, 1] <- "NShoreEnd"
+		NshoreCount = NshoreCount + 1 
+		matrix[srow, 2] <- NShoreEnd
+
+		}
+
+		else if (ibp >= NShelfEnd) {    ### AND/OR BP is GTE to NShelf End
+		#print ("NShelfEnd")
+		matrix[srow, 1] <- "NShelfEnd"
+		NshelfCount = NshelfCount + 1
+		matrix[srow, 2] <- NShelfEnd
+		}
+
+	
+	} ## END of IF - ibp >= IslandStart
+
+
+
+}     ### END of for loop through CpG Annotation
+}     ### END of for loop through sample rows
+
+}    ### END of for loop to subset data on chromosomes
+
+#
+###
+#
+
+print (islandCount)
+print (NshoreCount)
+print (NshelfCount)
+print (SshoreCount)
+print (SshelfCount)
+
+
+# writedata <- cbind(test, matrix)
+# write.table(writedata, "sample1.txt")

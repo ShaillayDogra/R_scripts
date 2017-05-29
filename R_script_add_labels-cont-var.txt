@@ -1,0 +1,128 @@
+
+
+###
+### CHANGE timepoint
+###
+### CHANGE I/O Files: P-C-O-F-G-O
+### 
+### CHANGE Label File: P-C-O-F-G-O
+###
+###
+###
+
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/RESULTS/ALL_TABLES/WEEK-3")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+
+### CHANGE according to taxa-level working with!!!
+##
+y <- read.table("OTU.txt", header=TRUE)
+
+
+
+
+
+###
+### FUNCTION TO ADD LABEL
+###
+addlabel <- function(x1, y) {
+x2 <- x1[ do.call(order, x1), ] ### CAUTION - this ORDER is statisitcal function, not taxa level
+m1 <- match(y[,1],x2[,1])
+z1 <- rbind()
+n <- length(m1)
+for (i in 1:n){
+if (is.na(m1[i])==FALSE)
+	{ z1 <- rbind(z1, y[i,])
+  }
+}
+z2 <- z1[ do.call(order, z1), ]  ### CAUTION  - this ORDER is statisitcal function, not taxa level
+out <- cbind(x2, z2)
+out
+}
+###
+###
+###
+
+
+
+
+
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-BirthLength.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-BirthLength-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-BirthWeight.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-BirthWeight-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-BMI.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-BMI-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-GestationalAgecalculated.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-GestationalAgecalculated-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-InfantLengthGrowthTrajectory00to12months.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-InfantLengthGrowthTrajectory00to12months-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-InfantNeonatalSubscapularSkinfold.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-InfantNeonatalSubscapularSkinfold-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-InfantWeight06Months.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-InfantWeight06Months-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-InfantWeight12Months.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-InfantWeight12Months-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-InfantWeightGain00to06Months.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-InfantWeightGain00to06Months-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-InfantWeightGain06to12months.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-InfantWeightGain06to12months-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-Length12Month.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-Length12Month-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-Maternal26weeksSubscapularSkinfold.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-Maternal26weeksSubscapularSkinfold-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-motherageyear.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-motherageyear-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-SES.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-SES-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-Skinfoldat18months.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-Skinfoldat18months-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-SkinfoldatBirth.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-SkinfoldatBirth-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Week3-Relative-Percent-vs-Skinfolddifference00to18months.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Week3-Relative-Percent-vs-Skinfolddifference00to18months-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+

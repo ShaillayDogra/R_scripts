@@ -1,0 +1,120 @@
+
+
+setwd( "/home/shaillay/RRBS/ANNOT/")
+
+rm(list=ls(all=TRUE))
+
+
+## Read the files
+file1 <- read.table("010_14020-annot.txt", header=TRUE)
+#
+file2 <- read.table("010_20638-annot.txt", header=TRUE)
+#
+file3 <- read.table("010_20905-annot.txt", header=TRUE)
+#
+file4 <- read.table("010_21707-annot.txt", header=TRUE)
+#
+file5 <- read.table("010_21708-annot.txt", header=TRUE)
+#
+file6 <- read.table("010_21979-annot.txt", header=TRUE)
+#
+file7 <- read.table("010_22183-annot.txt", header=TRUE)
+#
+
+
+## Change this to file1, file2...
+file <- file1
+
+
+
+#head(file)
+#tail(file)
+
+
+matrix <- matrix(nrow=20, ncol=9, -1)
+row = 0
+
+#
+for (cut in 1:60){
+	print (cut)
+
+	row = row +1
+	tmp <- subset(file, file[,4]>=cut)
+
+	a <- length(tmp[tmp[,10] == "NShelf",1])
+	b <- length(tmp[tmp[,10] == "NShore",1])
+	c <- length(tmp[tmp[,10] == "Island",1])
+	d <- length(tmp[tmp[,10] == "SShore",1])
+	e <- length(tmp[tmp[,10] == "SShelf",1])
+	f <- length(tmp[tmp[,10] == "-1-1",1])
+
+	total = a + b + c + d + e + f
+	nrow = nrow(tmp)
+
+	if (total != nrow) {
+		print ("ERRROOR!!")
+		break;
+	    }
+
+	matrix[row, 1] <- cut
+	matrix[row, 2] <- nrow
+	matrix[row, 3] <-a
+	matrix[row, 4] <- b
+	matrix[row, 5] <- c
+	matrix[row, 6] <- d
+	matrix[row, 7] <- e
+	matrix[row, 8] <- f
+	matrix[row, 9] <- total
+		
+}
+
+#
+
+
+for(cut in seq(15, 60,5)) {
+     print(cut)
+     row = row +1
+
+	tmp <- subset(file, file[,4]>=cut)
+
+	a <- length(tmp[tmp[,10] == "NShelf",1])
+	b <- length(tmp[tmp[,10] == "NShore",1])
+	c <- length(tmp[tmp[,10] == "Island",1])
+	d <- length(tmp[tmp[,10] == "SShore",1])
+	e <- length(tmp[tmp[,10] == "SShelf",1])
+	f <- length(tmp[tmp[,10] == "-1-1",1])
+
+	total = a + b + c + d + e + f
+	nrow = nrow(tmp)
+
+	if (total != nrow) {
+		print ("ERRROOR!!")
+		break;
+	    }
+
+	matrix[row, 1] <- cut
+	matrix[row, 2] <- nrow
+	matrix[row, 3] <-a
+	matrix[row, 4] <- b
+	matrix[row, 5] <- c
+	matrix[row, 6] <- d
+	matrix[row, 7] <- e
+	matrix[row, 8] <- f
+	matrix[row, 9] <- total
+		
+}
+#
+
+
+matrix
+
+dataout <- rbind( c("nreads-filter","No-rows", "N_Shelf", "N_Shore", "ISland", "S_Shore", "S_Shelf", "Open_Sea", "Total") , matrix)
+
+write.table(dataout, "010_22183-annot-nreads-stats.txt")
+
+#
+
+
+##
+
+

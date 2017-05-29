@@ -1,0 +1,70 @@
+
+
+
+rm(list=ls(all=TRUE))
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/CLUSTERING")
+
+
+alltaxa <- read.table("universal-taxa-list.txt", header=TRUE)
+
+
+#day3 <- read.table("Day3-all-taxa-relative-percent-v3.txt", header=TRUE, sep="\t")
+#nrow(day3)
+#ncol(day3)
+#row <- nrow(day3)
+
+
+#week3 <- read.table("Week3-all-taxa-relative-percent-v2.txt", header=TRUE, sep="\t")
+#nrow(week3)
+#ncol(week3)
+#row <- nrow(week3)
+
+
+#month3 <- read.table("Month3-all-taxa-relative-percent-v4.txt", header=TRUE, sep="\t")
+#nrow(month3)
+#ncol(month3)
+#row <- nrow(month3)
+
+
+month6 <- read.table("Month6-all-taxa-relative-percent-v3.txt", header=TRUE, sep="\t")
+nrow(month6)
+ncol(month6)
+row <- nrow(month6)
+
+
+
+null <- matrix( rep(NA, row, ncol = 1))
+
+total <- nrow(alltaxa)
+
+z <- rbind()
+
+
+
+for (id in 1:total) {
+x <- as.character(alltaxa[id,1])
+
+if (is.null(month6[[x]])==FALSE)  ### CHANGE
+	{
+	z <- cbind(z,month6[[x]])  ### CHANGE
+  }
+else
+	{z <- cbind(z, null)
+ }
+
+}
+
+
+
+ncol(z)
+nrow(z)
+
+result <- rbind(t(alltaxa),z)
+
+
+#write.table(result, "Day3-alltaxa.txt", sep="\t", row.names = F, col.names=F)
+#write.table(result, "Week3-alltaxa.txt", sep="\t", row.names = F, col.names=F)
+#write.table(result, "Month3-alltaxa.txt", sep="\t", row.names = F, col.names=F)
+write.table(result, "Month6-alltaxa.txt", sep="\t", row.names = F, col.names=F)
+

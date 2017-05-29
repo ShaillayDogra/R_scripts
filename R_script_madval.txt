@@ -1,0 +1,39 @@
+
+
+
+#### setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/5_GENUS")
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/1_PHYLUM")
+
+
+library(stats)
+
+
+
+rm(list=ls(all=TRUE))
+
+
+data <- read.table("Phylum-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+rows <- nrow(data)
+output <- cbind()
+
+
+
+for (i in 1:rows){
+madval <- mad(as.numeric(data[i,]))
+print(madval)
+output <- rbind(output, madval)
+
+}
+
+
+
+output <- cbind(rownames(data), output)
+
+
+write.table(output, "Phylum-M6-madval.txt", sep="\t", row.names = F, col.names=F)
+
+

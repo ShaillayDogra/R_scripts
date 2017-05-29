@@ -1,0 +1,42 @@
+
+
+###
+###
+### Input file: P-C-O-F-G-OTU merged pheno files
+###             6 files
+###             a given time-point
+###
+###
+
+
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/DAY-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/WEEK-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/MONTH-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/MONTH-6")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+ x1 <- read.table("Day3-Relative-Percent-vs-AntibioticsLabour-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Day3-Relative-Percent-vs-BirthOrder-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Day3-Relative-Percent-vs-DeliveryMode-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Day3-Relative-Percent-vs-Ethnicity-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Day3-Relative-Percent-vs-Gender-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("Day3-Relative-Percent-vs-Week1typeoffeeds-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ 
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+
+
+out <- cbind(out, "Day3")   ####>>>#### Ensure appropriate time-stamp here
+
+
+colnames(out) <- c("Day3-Relative-Percent", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno", "Timepoint")  ####>>>#### Change time-stamp here
+out
+
+write.table(out, "Day3-Relative-Percent-vs-cat-phenos-merged.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here

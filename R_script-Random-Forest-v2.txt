@@ -1,0 +1,135 @@
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA")
+
+
+## source("http://bioconductor.org/biocLite.R")
+## biocLite()
+## biocLite("randomForest")
+## biocLite("Boruta")
+
+
+
+library("randomForest")
+library("Boruta")
+
+
+
+## DAY-3 DATA
+## data <- read.table("Day3-all-taxa-relative-percent-v2.txt", header=TRUE, sep="\t", row.names=1)
+## pheno <- data$Week1typeoffeeds
+##
+## WEEK-3 DATA
+## data <- read.table("Week3-all-taxa-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## pheno <- data$Week3typeoffeeds
+##
+## MONTH-3 DATA
+## data <- read.table("Month3-all-taxa-relative-percent-v3.txt", header=TRUE, sep="\t", row.names=1)
+## pheno <- data$Month3typeoffeeds
+##
+## MONTH-6 DATA
+## data <- read.table("Month6-all-taxa-relative-percent-v3.txt", header=TRUE, sep="\t", row.names=1)
+## pheno <- data$Month6typeoffeeds
+
+#pheno <- data$Label
+
+
+####
+dim(data)
+data[1:5, 1:5]
+cols <- ncol(data)
+
+
+
+### ALL DATA
+dataRF <- data[, 1:(cols-1)]
+head(dataRF)
+
+
+
+### ONLY BACTERIA
+## Day3
+## dataRF <- data[, 1:(cols-11)]
+## Month3
+## dataRF <- data[,1:85]
+## Month6
+## dataRF <- data[,1:77]
+
+
+randomForest(pheno ~ ., data=dataRF, importance=T, proximity=T, na.action=na.omit, ntree=500, mtry=10, replace=T)
+
+
+
+####
+#### To-DO:
+#### OPTIMIZE PARAMETER SPACE
+#### TABLE OF MODELING ACCURACY WITH PARAMETER_CHANGE
+####
+
+
+data.rf <- randomForest(pheno ~ ., data=dataRF, importance=T, proximity=T, na.action=na.omit, ntree=5000, mtry=50, replace=T, localImp=T, norm.votes=T, do.trace=T, keep.forest=T, keep.inbag=T)
+
+
+treesize(data.rf, terminal=TRUE)
+hist(treesize(data.rf))
+
+plot(data.rf)
+
+
+round(importance(data.rf), 2)
+
+varImpPlot(data.rf, sort=TRUE, main="Variable Importance of each factor")
+
+plot(margin(data.rf))
+
+MDSplot(data.rf, pheno)
+
+
+#data.p <- classCenter(dataRF[,-n], dataRF[,n], data.rf$prox)
+#x1 <- dataRF$Actinobacteria_Bifidobacterium
+#y1 <- dataRF$Gammaproteobacteria_Klebsiella
+#plot(x, y, pch=21, bg=c("red", "blue", "green")[as.numeric(factor(dataRF$pheno))], main="Top Bacteria with Feedtype")
+
+
+plot(outlier(data.rf), type="h", col=c("red", "green", "blue")[as.numeric(pheno)])
+
+
+
+## data.mds <- cmdscale(1 - data.rf$proximity, eig=TRUE)
+## op <- par(pty="s")
+## pairs(cbind(dataRF[,1:2], data.mds$points), cex=0.6, gap=0,       
+##      col=c("red", "green", "blue")[as.numeric(factor(pheno))],
+##      main="Month6 Data- Predictors and MDS of Proximity Based on RandomForest")
+## par(op)
+
+
+
+
+
+## x=dataRF[,-n]
+## y=dataRF[,n] 
+## mtry=if (!is.null(y) && !is.factor(y)) max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x)))
+
+
+
+
+##### UNSUPERVISED
+f <- pheno
+data.rf <- randomForest(dataRF, ntree=5000, mtry=50, replace=T, na.action=na.omit)
+MDSplot(data.rf, f)
+
+
+
+#### BORUTA FEATURE SELECTION
+borutarun <- Boruta(pheno~.,data=dataRF,doTrace=2,maxRuns = 2500)
+
+print(borutarun)
+
+plot(borutarun, sort=TRUE)
+
+

@@ -1,0 +1,295 @@
+
+
+####################################################
+###
+### 
+### Categorical Variables
+###
+### Box-Plots
+### Data-tables
+### 
+### Change Input Data Files: Filtered or Relative-Percent
+### 
+###
+####################################################
+
+
+
+
+########                                                                            ####>>>#### CHANGE directory HERE!!
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA/1_PHYLUM")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA/2_CLASS")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA/3_ORDER")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA/4_FAMILY")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA/5_GENUS")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA/OTU")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+######################################
+### READ FILE
+##
+## All Data
+## data <- read.table("Phylum-QCed-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+### SAMPLE-PHENOTYPE INFORMATION
+##
+## Time data
+## phenodata <- read.table("sample-timepoint.txt", header=TRUE, sep="\t")
+
+
+
+##--Day3 Data--##
+## data <- read.table("Phylum-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA")
+## phenodata <- read.table("Day3-pheno-categorical.txt", header=TRUE, sep="\t")
+
+
+##--Week3 Data--##
+## data <- read.table("Phylum-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA")
+## phenodata <- read.table("Week3-pheno-categorical.txt", header=TRUE, sep="\t")
+
+
+
+##--Month3 Data--##
+## data <- read.table("Phylum-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA")
+## phenodata <- read.table("Month3-pheno-categorical.txt", header=TRUE, sep="\t")
+
+
+
+
+##--Month6 Data
+## data <- read.table("Phylum-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/TAXA")
+## phenodata <- read.table("Month6-pheno-categorical.txt", header=TRUE, sep="\t")
+
+
+
+
+####
+dim(data)
+data[1:5, 1:5]
+
+###
+dim(phenodata)
+phenodata[1:5, 1:5]
+
+### TRANSPOSE
+tdata <- t(data)
+tdata[1:5, 1:4]
+
+
+
+
+#### PHENOTYPE - CATEGORICAL VARIABLES
+##-- ALL DATA
+## list <- which(colnames(phenodata) %in% c("Timepoint"))
+##-- DAY3 PHENOTYPES                                     ####>>>#### CHANGE HERE!
+## list <- which(colnames(phenodata) %in% c("Gender", "DeliveryMode", "Ethnicity", "Week1typeoffeeds", "AntibioticsLabour", "BirthOrder"))
+##-- WEEK3 PHENOYPES                                    ####>>>#### CHANGE HERE!
+## list <- which(colnames(phenodata) %in% c("Gender", "DeliveryMode", "Ethnicity", "Week3typeoffeeds", "AntibioticsLabour", "BirthOrder"))
+##-- MONTH3 PHENOTYPES                                   ####>>>#### CHANGE HERE!
+## list <- which(colnames(phenodata) %in% c("Gender", "DeliveryMode", "Ethnicity", "Month3typeoffeeds", "AntibioticsLabour", "BirthOrder"))
+##-- MONTH6 PHENOTYPES                                   ####>>>#### CHANGE HERE!
+## list <- which(colnames(phenodata) %in% c("Gender", "DeliveryMode", "Ethnicity", "Month6typeoffeeds", "AntibioticsLabour", "BirthOrder"))
+
+
+
+
+
+
+######################################
+###############
+####
+####
+for (i in list){
+pheno <- phenodata[,i]
+phenochar <- as.character(phenodata[,i])
+phenoname <- colnames(phenodata)[i]
+
+dostats <- function(pheno, tdata, phenoname, phenochar) {
+###--------------------------------#####
+dataAnova <- cbind(tdata, pheno)
+cols <- ncol(dataAnova)
+rows <- nrow(dataAnova)
+
+### TO STORE RESULTS
+result <- matrix(rep(NA, (cols)*12), ncol = 12)    ## CHECK repeat-dimensions
+
+### HEADER                                                                    ####>>>#### CHANGE time-string HERE!
+## header <- paste("Phylum-M6-vs", phenoname, sep = "-")                        
+## header <- paste("Class-M6-vs", phenoname, sep = "-")                       
+## header <- paste("Order-D3-vs", phenoname, sep = "-")                       
+ header <- paste("Family-W3-vs", phenoname, sep = "-")                       
+## header <- paste("Genus-M6-vs", phenoname, sep = "-")                       
+## header <- paste("OTU-M3-vs", phenoname, sep = "-")                       
+
+
+
+result[1, 1] <- header
+result[1, 2] <- "p-value"
+
+##
+### BEGIN ANOVA SECTION ###
+###
+#
+for (i in 1:(cols-1)) {     ### Last Column is Phenotype
+ydat <- dataAnova[,i]
+
+bacteria <- as.character(colnames(dataAnova)[i]) ### Get Hold of "Bacteria" name
+result[i+1, 1] <- bacteria       ### plus 1 as we use first-row to store col-headers
+
+model <- lm(ydat ~ pheno)
+anova(model)
+fita <- anova(model)
+pval <- fita$Pr[1]  ### Get Hold of ANOVA p-value
+result[i+1, 2] <- pval           ### plus 1 as we use first-row to store col-headers
+
+datastats <- cbind(ydat, phenochar)
+x <- unique(phenochar)
+len <- length(x)
+
+idx=2+1   ## as 2 columns used in result storage matrix
+for (k in 1:len){
+#print(x[k])
+datasubset <- subset(datastats[,1], datastats[,2] == x[k])
+avg <- mean(as.numeric(datasubset))
+sd <- sd(as.numeric(datasubset))
+result[i+1, idx] <- avg             ### plus 1 as we use first-row to store col-headers   
+result[1,idx] <- paste("Average", x[k], sep = "-")
+idx = idx+1
+result[i+1, idx] <- sd               ### plus 1 as we use first-row to store col-headers
+result[1,idx] <- paste("StdDev", x[k], sep = "-")
+idx = idx+1
+}
+
+
+#fit <- summary(model)
+#nr <- nrow(fit$coeff)
+#j = 3                  ### First Col is Bacteria Name, second is ANOVA p-value in "Result"
+#for (k in 2:nr){
+#result[i, j] <- fit$coeff[k,4]
+#j = j+1
+#} 
+
+   
+###########  BOX-PLOTS                                                      ####>>>#### CHANGE directory HERE!!
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/1_PHYLUM")            
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/2_CLASS")              
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/3_ORDER")                 
+ setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/4_FAMILY")                
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/5_GENUS")                
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/OTU") 
+
+
+##### if (pval<1){
+outplot <- paste(phenoname,"-vs-W3-", bacteria, ".jpeg", sep ="")         ####>>>#### CHANGE time-string HERE!
+
+### TITLE                                                               ####>>>#### CHANGE time-string HERE!
+## title <- paste("Phylum-M6-vs-", phenoname,sep ="")
+## title <- paste("Class-M6-vs-", phenoname,sep ="")
+## title <- paste("Order-D3-vs-", phenoname,sep ="")
+ title <- paste("Family-M6-vs-", phenoname,sep ="")
+## title <- paste("Genus-W6-vs-", phenoname,sep ="")
+## title <- paste("OTU-M3-vs-", phenoname,sep ="")
+
+
+#jpeg(file = outplot)
+#require(stats)
+#z <- ydat ~ pheno
+## BOXPLOT                                                        
+#boxplot(z, boxfill=1:3, pch=1:5, lwd = 1.5, medcol="white", ylab=bacteria, xlab=phenoname, sub="Relative Percent", main=title)  
+## boxplot(z, boxfill=1:3, pch=1:5, lwd = 1.5, medcol="white", ylab=bacteria, xlab=phenoname, sub="Absolute Counts", main=title)  
+#dev.off()
+########### }
+
+
+
+}   ## END OUTER for LOOP
+#
+###
+### END ANOVA SECTION ###
+###
+
+
+
+### FDR CORRECTION
+rr <- nrow(result)
+fdrp <- p.adjust((result[2:rr,2]), method = "BH")   ### We are taking ANOVA p-value here to correct, ignore first row meant for col-header
+
+output <- cbind(result, fdrp)   ### NEED to FIX/HACK 
+##print(output)
+ 
+### OUTPUT FILE                                                                 ####>>>#### CHANGE time-string HERE!!
+## output_file <- paste("Phylum-M6-Relative-Percent-vs-", phenoname, "-Results.txt", sep = "")     
+## output_file <- paste("Class-M6-Relative-Percent-vs-", phenoname, "-Results.txt", sep = "")     
+## output_file <- paste("Order-D3-Relative-Percent-vs-", phenoname, "-Results.txt", sep = "")     
+ output_file <- paste("Family-W3-Relative-Percent-vs-", phenoname, "-Results.txt", sep = "")     
+## output_file <- paste("Genus-M6-Relative-Percent-vs-", phenoname, "-Results.txt", sep = "")     
+## output_file <- paste("OTU-M6-Relative-Percent-vs-", phenoname, "-Results.txt", sep = "")    
+ 
+
+##### RESULTS FOLDER                                                      ####>>>#### CHANGE directory HERE!!
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/1_PHYLUM")                     
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/2_CLASS")                      
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/3_ORDER")                      
+ setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/4_FAMILY")                      
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/5_GENUS")                     
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-456/RESULTS/OTU")
+
+
+print(output_file)
+write.table(output, output_file, sep="\t", row.names = F, col.names=F)
+
+###--------------------------------#####
+}
+
+
+dostats(pheno, tdata, phenoname, phenochar)
+
+}
+
+
+####
+####
+###############
+######################################
+
+
+
+

@@ -1,0 +1,54 @@
+
+
+rm(list=ls(all=TRUE))
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/-for-paper")
+data <- read.table("OTU-boxplot.txt", header=TRUE, sep="\t")
+
+pheno <- data[,2]
+OTU001 <- data[,3]
+OTU002 <- data[,4]
+
+require(stats)
+
+
+####  PLOT
+outplot <- "OTU001-OTU002-DeliveryMode.jpeg"
+jpeg(filename = outplot, width = 1500, height = 1500, res=300, units = "px", pointsize = 8)
+par(mfrow= c(1,2))
+z1 <- OTU001 ~ pheno
+boxplot(z1, col = "white", ylab="OTU001", xlab="DeliveryMode", main="OTU001-Day3-vs-DeliveryMode")  
+z2 <- OTU002 ~ pheno
+boxplot(z2, col = "white", ylab="OTU002", xlab="DeliveryMode", main="OTU002-Day3-vs-DeliveryMode")  
+dev.off()
+
+
+
+
+
+
+
+
+#bx.p <- boxplot(ydat ~ pheno)
+#op <- par(mfrow= c(2,2))
+#bxp(bx.p, xaxt = "n", main = "Ethnicity")
+#bxp(bx.p, notch = TRUE, axes = TRUE, pch = 4, boxfill=1:5, main = "Ethnicity")
+#bxp(bx.p, notch = TRUE, boxfill= "lightblue", frame= TRUE, outl= TRUE, main = "Ethnicity")
+#bxp(bx.p, notch = TRUE, boxfill= "lightblue", border= 2:6, ylim = c(-4,4000), pch = 22, bg = "green", main = "Ethnicity")
+#par(op)
+#op <- par(mfrow= c(1,2))
+
+
+
+
+
+#splus <- list(boxwex=0.4, staplewex=1, outwex=1, boxfill="grey40", medlwd=3, medcol="white", whisklty=3, outlty=1, outpch=NA)
+#boxplot(z, pars=splus)
+
+#op <- par(mfrow=c(1,2))
+#boxplot(z, border=1:5, lty = 3, medlty = 1, medlwd = 2.5)
+#boxplot(z, boxfill=1:3, pch=1:5, lwd = 1.5, medcol="white")
+#par(op)
+
+#boxplot(z, boxfill= "light gray", outpch = 21:25, outlty = 2, bg = "pink", lwd = 2, medcol = "dark blue", medcex = 2, medpch = 20)

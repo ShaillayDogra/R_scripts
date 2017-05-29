@@ -1,0 +1,304 @@
+
+
+###
+###
+### Input file: individual results file at P,C,O,F,G,OTU
+###              for each of the pheno
+###              at each time point
+###
+###
+
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/ALL-TIME")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/DAY-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/WEEK-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-6")
+
+
+
+
+###
+### Timepoint
+###
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Timepoint-vs-1.Phylum-level-Bacteria-Alltime-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Timepoint-vs-2.Class-level-Bacteria-Alltime-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Timepoint-vs-3.Order-level-Bacteria-Alltime-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Timepoint-vs-4.Family-level-Bacteria-Alltime-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Timepoint-vs-5.Genus-level-Bacteria-Alltime-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("Timepoint-vs-6.OTU-level-Bacteria-Alltime-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+
+ncol(x1)
+ncol(x2)
+ncol(x3)
+ncol(x4)
+ncol(x5)
+ncol(x6)
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+head(out)
+
+ xy <- read.table("Timepoint-vs-1.Phylum-level-Bacteria-Alltime-Relative-Percent-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+ l <- colnames(xy)
+
+out <- cbind(out, "Timepoint")                                                                 ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Bacteria.Alltime.vs.Timepoint", l[-1], "Pheno")                               ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Timepoint-vs-all-level-Bacteria-Alltime-Relative-Percent-Results.csv", sep=",", row.names=FALSE)           ####>>>#### Change time-stamp here
+
+
+
+
+
+
+
+
+
+###
+### AntibioticsLabour
+###
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("AntibioticsLabour-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("AntibioticsLabour-vs-2.Class-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("AntibioticsLabour-vs-3.Order-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("AntibioticsLabour-vs-4.Family-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("AntibioticsLabour-vs-5.Genus-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("AntibioticsLabour-vs-6.OTU-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+
+ncol(x1)
+ncol(x2)
+ncol(x3)
+ncol(x4)
+ncol(x5)
+ncol(x6)
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+head(out)
+
+ xy <- read.table("AntibioticsLabour-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+ l <- colnames(xy)
+
+out <- cbind(out, "AntibioticsLabour")                                                                 ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Bacteria.Month6.vs.AntibioticsLabour", l[-1], "Pheno")                               ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "AntibioticsLabour-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", sep=",", row.names=FALSE)           ####>>>#### Change time-stamp here
+
+
+
+
+
+###
+### BirthOrder
+###
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("BirthOrder-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("BirthOrder-vs-2.Class-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("BirthOrder-vs-3.Order-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("BirthOrder-vs-4.Family-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("BirthOrder-vs-5.Genus-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("BirthOrder-vs-6.OTU-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+
+ncol(x1)
+ncol(x2)
+ncol(x3)
+ncol(x4)
+ncol(x5)
+ncol(x6)
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+head(out)
+
+ xy <- read.table("BirthOrder-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+ l <- colnames(xy)
+
+out <- cbind(out, "BirthOrder")                                                                 ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Bacteria.Month6.vs.BirthOrder", l[-1], "Pheno")                               ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "BirthOrder-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", sep=",", row.names=FALSE)           ####>>>#### Change time-stamp here
+
+
+
+
+### 
+### DeliveryMode
+###
+
+
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("DeliveryMode-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("DeliveryMode-vs-2.Class-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("DeliveryMode-vs-3.Order-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("DeliveryMode-vs-4.Family-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("DeliveryMode-vs-5.Genus-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("DeliveryMode-vs-6.OTU-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+
+ncol(x1)
+ncol(x2)
+ncol(x3)
+ncol(x4)
+ncol(x5)
+ncol(x6)
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+head(out)
+
+ xy <- read.table("DeliveryMode-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+ l <- colnames(xy)
+
+out <- cbind(out, "DeliveryMode")                                                                 ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Bacteria.Month6.vs.DeliveryMode", l[-1], "Pheno")                               ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "DeliveryMode-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", sep=",", row.names=FALSE)           ####>>>#### Change time-stamp here
+
+
+
+
+
+
+###
+### Ethnicity
+###
+
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Ethnicity-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Ethnicity-vs-2.Class-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Ethnicity-vs-3.Order-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Ethnicity-vs-4.Family-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Ethnicity-vs-5.Genus-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("Ethnicity-vs-6.OTU-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+
+ncol(x1)
+ncol(x2)
+ncol(x3)
+ncol(x4)
+ncol(x5)
+ncol(x6)
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+head(out)
+
+ xy <- read.table("Ethnicity-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+ l <- colnames(xy)
+
+out <- cbind(out, "Ethnicity")                                                                 ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Bacteria.Month6.vs.Ethnicity", l[-1], "Pheno")                               ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Ethnicity-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", sep=",", row.names=FALSE)           ####>>>#### Change time-stamp here
+
+
+
+
+
+###
+### Gender
+###
+
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Gender-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Gender-vs-2.Class-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Gender-vs-3.Order-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Gender-vs-4.Family-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Gender-vs-5.Genus-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("Gender-vs-6.OTU-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+
+ncol(x1)
+ncol(x2)
+ncol(x3)
+ncol(x4)
+ncol(x5)
+ncol(x6)
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+head(out)
+
+ xy <- read.table("Gender-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+ l <- colnames(xy)
+
+out <- cbind(out, "Gender")                                                                 ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Bacteria.Month6.vs.Gender", l[-1], "Pheno")                               ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Gender-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", sep=",", row.names=FALSE)           ####>>>#### Change time-stamp here
+
+
+
+
+
+###
+### typeoffeeds
+###
+
+
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Month6typeoffeeds-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Month6typeoffeeds-vs-2.Class-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Month6typeoffeeds-vs-3.Order-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Month6typeoffeeds-vs-4.Family-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Month6typeoffeeds-vs-5.Genus-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("Month6typeoffeeds-vs-6.OTU-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+
+ncol(x1)
+ncol(x2)
+ncol(x3)
+ncol(x4)
+ncol(x5)
+ncol(x6)
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+head(out)
+
+ xy <- read.table("Month6typeoffeeds-vs-1.Phylum-level-Bacteria-Month6-Relative-Percent-Results.csv", header=TRUE, as.is=TRUE, sep=",")
+ l <- colnames(xy)
+
+out <- cbind(out, "Month6typeoffeeds")                                                                 ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Bacteria.Month6.vs.Month6typeoffeeds", l[-1], "Pheno")                               ####>>>#### Change time-stamp here
+head(out)
+
+write.table(out, "Month6typeoffeeds-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", sep=",", row.names=FALSE)           ####>>>#### Change time-stamp here
+
+
+
+
+
+

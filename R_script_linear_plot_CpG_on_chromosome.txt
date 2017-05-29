@@ -1,0 +1,68 @@
+
+### SET WORKING-DIR
+setwd("D:/SHAILLAY/METHYLATION-BIOMARKER")
+
+### START CLEAN
+rm(list=ls(all=TRUE))
+
+### READ the COORDINATE FILE
+coord <- read.table("cpg_coord_21.txt", header=TRUE)
+
+
+### A DUMMY MATRIX to GET ALL the LINEAR COORDINATES 
+# dim = max(coord[,2])
+dim = 46944323  ## for CHR 21
+#dim = 50000000  ## for plotting uniformity
+
+matrix <- matrix(0, nrow=dim, ncol=1)
+# dim(matrix)
+
+
+### POP the CPG COORDINATE at COORESPONDING LINEAR COORDINATE
+iter = nrow(coord)
+
+for (k in 1:iter){
+print (k)
+val <- (coord[k,2])
+#print (val)
+matrix[val,1] <- 1
+}
+
+
+###
+###
+
+
+### WRITE the MATRIX to a FILE, SPLIT JOB
+scale = 10000000
+a= 1  * scale
+b = 2 * scale
+data <- matrix[a:b, 1]
+write.table(data, "chr_21_cpg_coordinates-2.txt")
+
+
+
+### TEST
+x <- matrix[9900000:9990000,1]
+plot(x)
+points(x, cex = .5, col = "dark red", type='h')
+
+
+### TRY
+## at START a =1
+## at END b = dim(matrix[,1])
+
+scale = 1000000   ## E+6
+a = 45 * scale
+b = 46944323
+
+x <- matrix[a:b, 1]
+
+plot(x, ylim=c(-0.1,1.1))
+points(x, cex = .5, col = "dark red", type='h')
+##
+
+
+
+
+

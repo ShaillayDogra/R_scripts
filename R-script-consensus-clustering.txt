@@ -1,0 +1,26 @@
+
+setwd("H:/TRANSXEN/METHYLATION/MET-DATA/NORMAL_DATA/BMC_Cancer_2010")
+
+
+data1 <- read.table('91_Tumor_28_Normal_CRC.txt', header=TRUE)
+#dim(data1)
+data2<- data1[,2:120]
+data3 <- as.matrix(data2)
+
+data4 = sweep(data3,1, apply(data3,1,median,na.rm=T))
+
+clustdata <- data4
+
+library(ConsensusClusterPlus)
+
+title=tempdir()
+
+pdf(file="H:/TRANSXEN/METHYLATION/MET-DATA/NORMAL_DATA/BMC_Cancer_2010/cons-clust-results.pdf")
+
+results = ConsensusClusterPlus(clustdata,maxK=10,reps=100,pItem=0.8,pFeature=1,title="title",clusterAlg="hc",distance="pearson",seed=1262118388.71279)
+
+dev.off()
+
+
+
+

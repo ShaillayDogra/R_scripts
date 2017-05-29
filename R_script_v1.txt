@@ -1,0 +1,49 @@
+
+setwd("D:/SHAILLAY/RRBS/UCSC-CPG-TABLE")
+
+## READ in CPG-ISLAND ANNOTATION
+cpgIsland <- read.table("UCS_hgTables_cpgIsland_mod.txt", header=TRUE)
+cpgrows <- nrow(cpgIsland)
+
+
+setwd("D:/SHAILLAY/RRBS/DATA-FILES")
+
+### READ in 1 SAMPLE FILE
+sample <- read.table("010_14020.txt")
+samplerows <- nrow(sample)
+
+
+test <- sample[1:500,]
+samplerows <- nrow(test)
+
+
+### DUMMY MATRIX TO STORE VALUES
+matrix <- matrix(-1, nrow=samplerows, ncol=1)
+
+islandCount = 0
+
+for (srow in 1:samplerows){    ## Start loop through sample rows
+for (crow in 1:cpgrows) {      ## Start another loop through CpG Annotation
+		
+if (test[srow,1]== cpgIsland[crow,1]) {   ### Match Chromsome
+	
+	if (test[srow,2] >= cpgIsland[crow,2]) {       ### BP is GTE to CpGIsland Start
+ 		if (test[srow,2] <= cpgIsland[crow,3]) {    ### BP is GTE to CpGIsland End
+ 		print ("Island")
+		matrix[srow, 1] <- "Island"		
+		islandCount = islandCount + 1
+ 		} 
+	}
+
+
+
+}   ### END of IF "Match Chromosome"
+
+}     ### END of for loop through CpG Annotation
+}     ### END of for loop through sample rows
+
+
+
+print (islandCount)
+
+

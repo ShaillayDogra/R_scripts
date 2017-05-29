@@ -1,0 +1,191 @@
+
+
+####################################################
+###
+### SLOPES ANALYSIS
+### 
+### Continuous variables
+### ANOVA
+###
+### takes all pheno as a list
+###
+### Change input "Data" file yourself!!
+### Change "pheno" file yourself!!
+###
+### 
+###
+### All the PLOTS
+###
+###
+####################################################
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+
+### FILES DIRECTORY                                                                             ####>>>>#### CHANGE directory HERE!!
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/1_PHYLUM/SLOPE-PLOTS")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/2_CLASS/SLOPE-PLOTS")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/3_ORDER/SLOPE-PLOTS")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/4_FAMILY/SLOPE-PLOTS")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/5_GENUS/SLOPE-PLOTS")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/OTU/SLOPE-PLOTS")
+
+
+
+
+################################
+##### READ DATA & PHENO FILES
+## data <- read.table("Phylum-slopes.csv", header=TRUE, sep=",", row.names=1)
+## data <- read.table("Class-slopes.csv", header=TRUE, sep=",", row.names=1)
+## data <- read.table("Order-slopes.csv", header=TRUE, sep=",", row.names=1)
+## data <- read.table("Family-slopes.csv", header=TRUE, sep=",", row.names=1)
+## data <- read.table("Genus-slopes.csv", header=TRUE, sep=",", row.names=1)
+## data <- read.table("OTU-slopes.csv", header=TRUE, sep=",", row.names=1)
+
+##
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/")
+## phenodata <- read.table("pheno-continuous.txt", header=TRUE, sep="\t")
+##
+
+
+
+### Check Data
+dim(data)
+data[1:5, 1:5]
+
+### Check Data/ Pheno
+dim(phenodata)
+phenodata[1:5, 1:10]
+
+tail(data)
+tail(phenodata)
+
+
+
+
+
+##
+#### List of Phenotypes - Continuous Variables
+##
+## For testing
+##list <- which(colnames(phenodata) %in% c("BirthWeight", "SubscapularSkinfoldaverageChild"))
+##
+
+
+list <- which(colnames(phenodata) %in% c("SES", "BirthWeight", "GestationalAgecalculated", "BMI", 
+"Length12Month", "BirthLength", "motherageyear", "InfantNeonatalSubscapularSkinfold", "Maternal26weeksSubscapularSkinfold", 
+"InfantLengthGrowthTrajectory00to12months", "Skinfolddifference00to18months", "InfantWeight06Months", 
+"InfantWeight12Months", "InfantWeightGain00to06Months", "InfantWeightGain06to12months", "Skinfoldat18months", "SkinfoldatBirth"))
+
+
+print(length(list))
+
+
+
+
+
+########
+########
+####
+for (i in list){
+#print (i)
+pheno <- phenodata[,i]
+phenoname <- colnames(phenodata)[i]
+
+dostats <- function(pheno, tdata, phenoname) {
+
+###--------------------------------#####
+dataAnova <- cbind(tdata, pheno)
+cols <- ncol(dataAnova)
+
+### TO STORE RESULTS
+result <- matrix(rep(NA, (cols-1)*3), ncol = 3)  ## CHECK repeat-dimensions
+
+rows <- nrow(dataAnova)
+
+###
+### BEGIN ANOVA SECTION ###
+###
+#
+for (i in 1:(cols-1)) {     ### Last Column is Phenotype
+#print(i)
+ydat <- dataAnova[,i]
+length(ydat)
+
+bacteria <- as.character(colnames(dataAnova)[i]) ### Get Hold of "Bacteria" name
+result[i, 1] <- bacteria
+
+model <- lm(ydat ~ pheno)
+anova(model)
+fita <- anova(model)
+pval <- fita$Pr[1]  ### Get Hold of ANOVA p-value
+result[i, 2] <- pval
+
+fit <- summary(model)
+nr <- nrow(fit$coeff)
+
+
+
+### RESULTS DIRECTORY                                                                             ####>>>>#### CHANGE directory HERE!!
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/1_PHYLUM")                      
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/2_CLASS")                      
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/3_ORDER")                      
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/4_FAMILY")                      
+ setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/5_GENUS")                      
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/OTU")                      
+
+
+####  PLOT
+## if (pval<1){ 
+outplot <- paste(phenoname,"-vs-", bacteria, "-slope", ".jpeg", sep ="")                           
+title <- paste("Genus-slope-vs-", phenoname,sep ="")                                             ####>>>>####  CHANGE taxa-string HERE!!
+jpeg(file = outplot)
+x <- ydat
+y <- pheno
+plot(x,y, xlab=bacteria, ylab=phenoname, main=title, sub="slope", type="p", col="red", col.main= "blue", col.sub = "red") 
+dev.off()
+## }
+
+
+}   ## END OUTER for LOOP
+#
+###
+### END ANOVA SECTION ###
+###
+
+
+### FDR CORRECTION
+#fdrp <- p.adjust((result[,2]), method = "BH")   ### We are taking ANOVA p-value here to correct
+#output <- cbind(result, fdrp)
+#print(output)
+#colheader <- paste("OTU-Day3-vs-", phenoname, sep = "") #### CHANGE HERE!!       
+#colnames(output) <- c(colheader, "p-value", "BH-FDR p-value")
+#output_file <- paste("Day3-Results-", phenoname, ".txt", sep = "") #### CHANGE HERE!!
+#write.table(output, output_file, sep="\t", row.names = F)
+
+###--------------------------------#####
+}
+
+
+
+dostats(pheno, data, phenoname)
+
+}
+
+
+
+####
+####
+####
+####
+
+
+
+
+

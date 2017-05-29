@@ -1,0 +1,50 @@
+
+
+
+rm(list=ls(all=TRUE))
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/-for-paper")
+
+
+#data1 <- read.table("Streptococcus-Month6-InfantNeonatalSubscapularSkinfold.txt", header=TRUE, sep="\t") 
+#head(data1)
+#bact1 <- (data1$Streptococcus)
+#pheno1 <- (data1$InfantNeonatalSubscapularSkinfold)
+
+
+data2 <- read.table("Streptococcus-Month6-SkinfoldnumericalDifference00to18months-v2.txt", header=TRUE, sep="\t") 
+head(data2)
+bact2 <- (data2$Streptococcus)
+pheno2 <- (data2$Skinfold18mtobirthdifference)
+
+
+
+
+
+
+####  PLOT
+outplot <- "Streptococcus-M6-vs-skinfolds-v3.jpeg"
+jpeg(filename = outplot, width = 1500, height = 1500, res=300, units = "px", pointsize = 8)
+par(mfrow= c(1,1))
+#plot(pheno1, bact1, type = "p", col = "black", cex = 1, pch = 19, xlab = "InfantNeonatalSubscapularSkinfold", ylab ="Relative-Percent", main = "Streptococcus", cex.lab=1.0, cex.axis=1, cex.main=1.5, ylim=c(0,70) )
+#abline(lm(bact1~pheno1), col="black")
+
+plot(pheno2, bact2, type = "p", col = "black", cex = 1, pch = 19, xlab = "Skinfold18mtobirthdifference", ylab ="Relative-Percent", cex.lab=1.0, cex.axis=1, cex.main=1.5, ylim=c(0,70))
+abline(lm(bact2~pheno2), col="black")
+
+
+##plot(InfantWeight12Months, Collinsella, type = "p", col = "black", cex = 1, pch = 19, ann = FALSE, cex.lab=1.5, cex.axis=1, cex.main=1.5, ylim=c(0,15) )
+
+dev.off()
+
+
+
+
+
+### axis(1,pos=c(0,0),at=seq(0,350,by=20))
+### library(ggplot2)
+### p <- ggplot(data, aes(GestationalAgecalculated, Bifidobacterium))
+### p + geom_point(colour = "red", size = 3)
+### p + theme(panel.background = element_rect(fill = 'green', colour = 'red'))
+### p + theme(plot.background = element_rect(fill = 'green', colour = 'red'))
+

@@ -1,0 +1,32 @@
+
+###
+###
+###
+
+### SET the WORKING DIR
+setwd("D:/METHYLATION-BIOMARKER")
+
+### READ the DATA FILE with CPG COORDINATES
+coord <-  read.table("21_coord.txt", header=TRUE)
+
+### CREATE a MATRIX to STORE VALUES
+dim = nrow(coord)
+matrix <- matrix(-1, nrow=dim, ncol=dim)
+
+
+### The FOR LOOP
+for (i in 1:dim) {
+print(i)
+#print(coord[i, 1])
+
+for (k in 1:dim) {
+distance = coord[k, 1] - coord[i, 1]
+#print(distance)
+matrix[i,k] = distance
+
+}
+}
+
+### TEST
+# matrix[1,]
+#

@@ -1,0 +1,70 @@
+
+
+library(ade4)
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/TAXA")
+
+
+
+#data <- read.table("Day3-all-taxa-relative-percent-v2.txt", header=TRUE, sep="\t", row.names=1)
+#data1 <- data[,1:69]
+#label1 <- data$Week1typeoffeeds
+
+
+par(mfrow = c(2,2))
+
+pca1 <- dudi.pca(data1, scan = FALSE, nf = 4)
+s.class(pca1$li, label1, sub = "Principal Component Analysis (Day3)", csub = 1.75)
+
+
+head(data)
+ncol(data)
+data2 <- data[,1:76]
+label2 <- data$Week3typeoffeeds
+
+pca2 <- dudi.pca(data2, scal = FALSE, scan = FALSE, nf = 4)
+s.class(pca2$li, label2, sub = "Principal Component Analysis (Week3)", csub = 1.75)
+
+bet1 <- bca(pca1, label1, scan = FALSE, nf = 2)
+bet2 <- bca(pca2, label2, scan = FALSE, nf = 2)
+
+s.class(bet1$ls, label1, sub = "Between types PCA (Day3)", csub = 1.75)
+s.class(bet2$ls, label2, sub = "Between types PCA (Week3)", csub = 1.75)
+
+
+
+
+#####
+### 
+## Month3 & Month6
+###
+#####
+
+data <- read.table("Month3-all-taxa-relative-percent-v2.txt", header=TRUE, sep="\t", row.names=1)
+data1 <- data[,1:85]
+label1 <- data$Month3typeoffeeds
+
+
+par(mfrow = c(2,2))
+
+pca1 <- dudi.pca(data1, scan = FALSE, nf = 4)
+s.class(pca1$li, label1, sub = "Principal Component Analysis (Month3)", csub = 1.75)
+
+
+
+data <- read.table("Month6-all-taxa-relative-percent-v2.txt", header=TRUE, sep="\t", row.names=1)
+data2 <- data[,1:77]
+label2 <- data$Month6typeoffeeds
+
+
+pca2 <- dudi.pca(data2, scal = FALSE, scan = FALSE, nf = 4)
+s.class(pca2$li, label2, sub = "Principal Component Analysis (Month6)", csub = 1.75)
+
+bet1 <- bca(pca1, label1, scan = FALSE, nf = 2)
+bet2 <- bca(pca2, label2, scan = FALSE, nf = 2)
+
+s.class(bet1$ls, label1, sub = "Between types PCA (Month3)", csub = 1.75)
+s.class(bet2$ls, label2, sub = "Between types PCA (Month6)", csub = 1.75)
+
+
+

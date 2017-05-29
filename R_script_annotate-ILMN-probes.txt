@@ -1,0 +1,38 @@
+
+
+
+setwd("D:/NW/NWAJ060112")
+
+rm(list=ls(all=TRUE))
+
+
+#### Source the appropriate packages, one-time
+source("http://bioconductor.org/biocLite.R")
+
+biocLite("lumi")
+biocLite("limma")
+biocLite("lumiHumanAll.db")
+biocLite("annotate")
+
+#biocLite("hgu95av2.db")
+
+
+#### Load the packages, every new R session
+library("lumi")
+library("limma")
+library("lumiHumanAll.db")
+library("annotate")
+
+probes <- read.table("probeids.txt", header=TRUE)
+probeList <- as.character(probes[,1])
+
+
+
+#### probe to gene annotation here; just copy-paste the full block
+if (require(lumiHumanAll.db) & require(annotate)) {
+geneSymbol <- getSYMBOL(probeList, 'lumiHumanAll.db')
+geneName <- sapply(lookUp(probeList, 'lumiHumanAll.db', 'GENENAME'), function(x) x[1])
+output <- data.frame(ID= probeList, geneSymbol=geneSymbol, geneName=geneName, stringsAsFactors=FALSE)
+}
+
+

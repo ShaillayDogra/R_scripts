@@ -1,0 +1,423 @@
+
+
+###
+###
+### Input file: individual results file at P,C,O,F,G,OTU
+###              for each of the pheno
+###              at each time point
+###
+###
+
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/RESULTS/ALL_TABLES/DAY-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/RESULTS/ALL_TABLES/WEEK-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/RESULTS/ALL_TABLES/MONTH-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/RESULTS/ALL_TABLES/MONTH-6")
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-BirthLength-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-BirthLength-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-BirthLength-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-BirthLength-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-BirthLength-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-BirthLength-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+
+out <- cbind(out, "BirthLength")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+write.table(out, "Month6-Relative-Percent-vs-BirthLength-annotated.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-BirthWeight-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-BirthWeight-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-BirthWeight-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-BirthWeight-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-BirthWeight-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-BirthWeight-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+
+out <- cbind(out, "BirthWeight")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+write.table(out, "Month6-Relative-Percent-vs-BirthWeight-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-BMI-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-BMI-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-BMI-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-BMI-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-BMI-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-BMI-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+
+out <- cbind(out, "BMI")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+
+write.table(out, "Month6-Relative-Percent-vs-BMI-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-GestationalAgecalculated-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-GestationalAgecalculated-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-GestationalAgecalculated-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-GestationalAgecalculated-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-GestationalAgecalculated-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-GestationalAgecalculated-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "GestationalAgecalculated")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+
+ write.table(out, "Month6-Relative-Percent-vs-GestationalAgecalculated-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-InfantLengthGrowthTrajectory00to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-InfantLengthGrowthTrajectory00to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-InfantLengthGrowthTrajectory00to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-InfantLengthGrowthTrajectory00to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-InfantLengthGrowthTrajectory00to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-InfantLengthGrowthTrajectory00to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "InfantLengthGrowthTrajectory00to12months")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-InfantLengthGrowthTrajectory00to12months-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-InfantNeonatalSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-InfantNeonatalSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-InfantNeonatalSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-InfantNeonatalSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-InfantNeonatalSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-InfantNeonatalSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "InfantNeonatalSubscapularSkinfold")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-InfantNeonatalSubscapularSkinfold-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-InfantWeight06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-InfantWeight06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-InfantWeight06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-InfantWeight06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-InfantWeight06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-InfantWeight06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "InfantWeight06Months")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-InfantWeight06Months-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-InfantWeight12Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-InfantWeight12Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-InfantWeight12Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-InfantWeight12Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-InfantWeight12Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-InfantWeight12Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "InfantWeight12Months")   ####>>>#### Ensure appropriate pheno here
+
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-InfantWeight12Months-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-InfantWeightGain00to06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-InfantWeightGain00to06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-InfantWeightGain00to06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-InfantWeightGain00to06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-InfantWeightGain00to06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-InfantWeightGain00to06Months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "InfantWeightGain00to06Months")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-InfantWeightGain00to06Months-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-InfantWeightGain06to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-InfantWeightGain06to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-InfantWeightGain06to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-InfantWeightGain06to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-InfantWeightGain06to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-InfantWeightGain06to12months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "InfantWeightGain06to12months")   ####>>>#### Ensure appropriate pheno here
+
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-InfantWeightGain06to12months-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-Length12Month-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-Length12Month-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-Length12Month-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-Length12Month-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-Length12Month-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-Length12Month-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "Length12Month")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+
+ write.table(out, "Month6-Relative-Percent-vs-Length12Month-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-Maternal26weeksSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-Maternal26weeksSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-Maternal26weeksSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-Maternal26weeksSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-Maternal26weeksSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-Maternal26weeksSubscapularSkinfold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "Maternal26weeksSubscapularSkinfold")   ####>>>#### Ensure appropriate pheno here
+
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+write.table(out, "Month6-Relative-Percent-vs-Maternal26weeksSubscapularSkinfold-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-motherageyear-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-motherageyear-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-motherageyear-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-motherageyear-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-motherageyear-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-motherageyear-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "motherageyear")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-motherageyear-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-SES-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-SES-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-SES-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-SES-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-SES-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-SES-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "SES")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-SES-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-Skinfoldat18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-Skinfoldat18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-Skinfoldat18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-Skinfoldat18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-Skinfoldat18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-Skinfoldat18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "Skinfoldat18months")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-Skinfoldat18months-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-SkinfoldatBirth-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-SkinfoldatBirth-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-SkinfoldatBirth-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-SkinfoldatBirth-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-SkinfoldatBirth-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-SkinfoldatBirth-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "SkinfoldatBirth")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+ write.table(out, "Month6-Relative-Percent-vs-SkinfoldatBirth-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Phylum-Month6-Relative-Percent-vs-Skinfolddifference00to18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Class-Month6-Relative-Percent-vs-Skinfolddifference00to18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Order-Month6-Relative-Percent-vs-Skinfolddifference00to18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Family-Month6-Relative-Percent-vs-Skinfolddifference00to18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Genus-Month6-Relative-Percent-vs-Skinfolddifference00to18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("OTU-Month6-Relative-Percent-vs-Skinfolddifference00to18months-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4, x5, x6)
+out
+
+out <- cbind(out, "Skinfolddifference00to18months")   ####>>>#### Ensure appropriate pheno here
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno")  ####>>>#### Change time-stam here
+out
+
+write.table(out, "Month6-Relative-Percent-vs-Skinfolddifference00to18months-annotated.csv", sep=",", row.names=FALSE)
+
+
+
+
+

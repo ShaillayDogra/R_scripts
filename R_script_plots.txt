@@ -1,0 +1,54 @@
+###
+###
+###
+
+
+### SET WORKING DIRECTORY
+setwd("D:/SHAILLAY/METHYLATION-BIOMARKER/CHR21")
+
+
+### READ the DATA FILES with DISTANCES
+coorddist <- read.table("pairwise-CpG-distances-chr21.txt")
+methvalues <- read.table("pairwise-meth-distances-chr21.txt")
+
+#nrow(coorddist)
+
+k = 10
+
+#k=nrow(coorddist)
+
+dist <- abs(coorddist[1:k,1:k])
+meth <- abs(methvalues[1:k,1:k])
+
+
+matplot(dist, meth)
+
+
+### SUMMARY Stats
+max(coorddist)
+max(methvalues)
+
+range(coorddist)
+range(methvalues)
+
+hist(sd(coorddist))
+hist(sd(methvalues))
+
+barplot(sd(abs(coorddist)))
+barplot(sd(abs(methvalues)))
+
+
+###
+### High Density Scatterplots
+###
+
+
+data <- read.table("pairwise_distance-methylation_difference-chr21-semi.txt")
+
+library(hexbin)
+
+x <- data[ , 3]
+y <- data[ , 4]
+bin<-hexbin(x, y, xbins=1000)
+plot(bin, main="Hexagonal Binning") 
+

@@ -1,0 +1,150 @@
+
+
+
+### CHECK PACKAGES
+library(BiocInstaller)
+biocValid() 
+
+### UPDATE PACKAGES
+source("http://bioconductor.org/biocLite.R")
+biocLite(ask=FALSE) 
+
+### INSTALL PACKAGES
+source("http://bioconductor.org/biocLite.R")
+biocLite("lumi")
+biocLite("limma")
+biocLite("lumiHumanAll.db")
+biocLite("annotate")
+biocLite("arrayQualityMetrics")
+install.packages("ggplot2")
+
+### LOAD PACAKGES
+library(lumi)
+library("limma")
+library("lumiHumanAll.db")
+library("annotate")
+library("arrayQualityMetrics")
+library(ggplot2)
+
+
+### WORKING DIRECTORY
+setwd("C:/Users/limm5/Documents/25 Microarray/March15 SAMS microarray scan")
+dir()
+rm(list=ls(all=TRUE))
+
+
+### GET AND PROCESS DATA
+fileName <- "SAMS All exported data v2.txt"
+x.lumi <- lumiR.batch(fileName)
+
+lumi.T <- lumiT(x.lumi, method="log2")
+lumi.N <- lumiN(lumi.T, method='quantile') 
+lumi.N.Q <- lumiQ(lumi.N, logMode = FALSE)
+
+
+### QC 
+plotSampleRelation(lumi.N.Q, selProbe = NULL, cv.Th = 0.05, standardize = TRUE, method = c("cluster"), dimension = c(1, 2))
+plotSampleRelation(lumi.N.Q, selProbe = NULL, cv.Th = 0.05, standardize = TRUE, method = c("mds"), dimension = c(1, 2))
+plot(lumi.N.Q, what='boxplot')
+summary(lumi.N.Q, 'QC')
+
+
+### CHECK DATA
+dataMatrix <- exprs(lumi.N.Q)
+dim(dataMatrix)
+allprobeList <- rownames(dataMatrix)
+
+##presentCount <- detectionCall(x.lumi, Th=0.05)
+##selDataMatrix <- dataMatrix[presentCount > 0,]
+##dim(selDataMatrix)
+##selprobeList <- rownames(selDataMatrix)
+
+
+### STUDY DESIGN
+### 
+design <- readTargets(file="SAMS-microarray-design-v2.txt", sep="\t", row.names="id")
+##design <- cbind(control=c(1,1,0,0,0,0), group1=c(0,0,1,1,0,0), group2=c(0,0,0,0,1,1))
+design
+
+
+
+### AVERAGE THE VALUES FOR COLUMNS BASED ON SAMPLE IDs/ TECHNICAL REPLICATES
+avgDataMatrix <- avearrays(dataMatrix, ID=design$sample)
+dim(avgDataMatrix)
+colnames(avgDataMatrix)
+
+### CHECK THE RESULT
+head(avgDataMatrix)
+
+### MAKE SURE AVERAGE DATA MATRIX IS A DATA FRAME
+avgDataMatrix<- as.data.frame(avgDataMatrix)
+
+
+### Subset Design File
+design2<- design[c("sample","Ethn","Phenotype")]
+design2
+dim(design2)
+unique.design2 <- unique(design2)
+dim(unique.design2)
+#### write.table(unique.design2, "Obese-vs-lean-design.txt", sep="\t", row.names=FALSE)
+
+
+### ARRAY_QUALITY WEIGHTS
+## arrayw <- arrayWeights(avgDataMatrix, unique.design2$Phenotype)
+
+
+##Read in design file for analysis
+##design3 <- read.table("ob-ln-design-48samples.txt", header = TRUE, sep="\t")
+design3 <- read.table("IND-ob-ln-design.txt", header = TRUE, sep="\t")
+
+
+### GET ETHNIC SUBSET OF DATA FROM DESIGN FILE
+IND <- subset(unique.design2, unique.design2$Ethn=='I')
+
+### GET LIST OF SAMPLES BELONGING TO ETHNIC DATA SUBSET
+INDSample <- as.vector(IND$sample)
+
+### SELECT DATA FOR CHINESE SAMPLES FROM avgMatrix
+INDData <- avgDataMatrix[INDSample]
+
+### CHECK DATA
+head(INDData)
+
+
+### ANALYSIS
+#fit <- lmFit(seldataMatrix, design, weights=selarrayw)
+#fit <- lmFit(avgDataMatrix, design = design3)
+
+fit <- lmFit(INDData, design = design3)
+contrast.matrix <- makeContrasts(Obese-Lean, levels=design3)
+contrast.matrix
+fit2 <- contrasts.fit(fit, contrast.matrix)
+fit2 <- eBayes(fit2)
+
+
+### RESULTS SUMMARY
+results <- decideTests(fit2, method="separate", adjust.method="BH", p.value=0.05)
+summary(results)
+vennDiagram(results, include="both")
+
+probeList <- allprobeList
+#probeList <- selprobeList
+
+### PROBE ANNOTATION
+if (require(lumiHumanAll.db) & require(annotate)) {
+geneSymbol <- getSYMBOL(probeList, 'lumiHumanAll.db')
+geneName <- sapply(lookUp(probeList, 'lumiHumanAll.db', 'GENENAME'), function(x) x[1])
+fit$genes <- data.frame(ID= probeList, geneSymbol=geneSymbol, geneName=geneName, stringsAsFactors=FALSE)
+}
+
+
+### RESULTS TABLE
+topTable(fit2, coef=1, adjust="BH", genelist=fit$genes, p.value=0.05)
+
+### WRITE OUT THE RESULTS
+table <- topTable(fit2, coef=1, adjust="BH", genelist=fit$genes, n=Inf)
+write.table(table, "IND-avg-Ob-Ln.txt", sep="\t", row.names=FALSE)
+
+
+##
+##

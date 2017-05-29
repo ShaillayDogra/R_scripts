@@ -1,0 +1,42 @@
+
+
+rm(list=ls(all=TRUE))
+
+
+library(made4)
+library(ade4)
+
+
+
+setwd("setwd("D:/ORAL_MICROBIOME/PCoA")
+
+data<- read.table("Run1_subsample605_unweighted_UniFrac-Week3-teething_signs_symptoms_2.txt", header=TRUE, sep="\t", as.is=TRUE)
+
+head(data)
+dim(data)
+data[1:5,1:5]
+lastcol <- ncol(data)
+
+data2 <- data[2:lastcol]  ###<<<--CHECK THIS!
+data2[1:5,1:5]
+dim(data2)
+
+
+
+loc <- cmdscale(data2, k = 3, eig = FALSE, add = FALSE, x.ret = FALSE)
+
+
+x <- loc[,1]
+y <- loc[,2]
+z <- loc[,3]
+
+
+plot(x,y)
+plot(x,z)
+plot(y,z)
+
+
+write.table(loc, file="unweighted_UniFrac-Week3-teething_signs_symptoms.txt", sep="\t")
+
+
+

@@ -1,0 +1,107 @@
+
+### SET WORKING-DIR
+setwd("D:/SHAILLAY/METHYLATION-BIOMARKER/CHR21")
+
+### START CLEAN
+rm(list=ls(all=TRUE))
+
+### READ the COORDINATE FILE
+coord <- read.table("cpg_coord_chr21-v3.txt", header=TRUE)
+values <- read.table("meth-avg-sd-values-21.txt", header=TRUE)
+
+relation <- as.matrix(coord[,3])
+reference <- as.matrix(coord[,4]) 
+
+
+### A DUMMY MATRIX to GET ALL the LINEAR COORDINATES 
+## dim = max(coord[,2])
+## dim = 46944323  ## for CHR 21
+dim = 50000000  ## for plotting uniformity
+
+matrix <- matrix(0, nrow=dim, ncol=2)
+# dim(matrix)
+
+
+### POP the CPG COORDINATES and VALUES at COORESPONDING LINEAR COORDINATE
+iter = nrow(coord)
+
+#iter = 2
+
+##
+for (k in 1:iter){
+print (k)
+cpg <- coord[k,2]
+#type <- relation[k,1]
+#location <- reference[k,1]
+avg <- values[k,2]
+#sd <- values[k,3]
+
+#if(avg >= 0.7){label <- "M"}
+#else if(avg <= 0.3){label <- "U"}
+#else {label <- "I"}
+
+matrix[cpg,1] <- -0.01
+matrix[cpg,2] <- avg
+#matrix[cpg,3] <- sd
+#matrix[cpg,4] <- label
+#matrix[cpg,5] <- type
+#matrix[cpg,6] <- location
+
+#print(label)
+#print(type)
+#print(location)
+
+}
+
+
+###
+###
+
+
+
+### WRITE the MATRIX to a FILE, SPLIT JOB
+#scale =  1000000
+#a= 45  * scale
+#b = 50 * scale
+#data <- matrix[a:b,]
+#data <- rbind( c("bp","avg", "sd", "label", "type", "loc")  , data)
+#write.table(data, "chr_21_cpg_coords_vals_tmp.txt")
+###
+
+
+
+### TEST
+x <- matrix[9900000:9990000,1]
+plot(x)
+points(x, cex = .5, col = "dark red", type='h')
+
+
+### PLOT
+# at START a =1
+# at END b = dim(matrix[,1])
+
+scale = 100000   ## E+5
+a = 180 * scale
+b = 185 * scale
+
+x <- matrix[a:b, 1]
+y <- matrix[a:b, 2]
+plot(x, ylim=c(-0.1,1.1))
+points(x, cex = .5, col = "dark red", type='h')
+par(new=T)
+plot(y, ylim=c(-0.1,1.1))
+#points(y, cex = .5, col = "dark red", type='h')
+
+
+data <- matrix[a:b,]
+x <- as.vector(data[,2])
+y <- bcp(x, w0 = 0.2, p0 = 0.2, burnin = 50, mcmc = 500, return.mcmc = FALSE)
+plot.bcp(y)
+
+###
+###
+
+
+
+
+

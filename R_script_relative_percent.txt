@@ -1,0 +1,66 @@
+
+
+
+### WORKING DIRECTORY
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE/TAXA/OTU")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+## Full Data
+## data <- read.table("OTU-filtered.txt", header=TRUE, sep="\t", row.names=1)
+##--Day3 Data
+## data <- read.table("OTU-D3-filtered.txt", header=TRUE, sep="\t", row.names=1)
+##--Week3 Data
+## data <- read.table("OTU-W3-filtered.txt", header=TRUE, sep="\t", row.names=1)
+##--Month3 Data
+## data <- read.table("OTU-M3-filtered.txt", header=TRUE, sep="\t", row.names=1)
+##--Month6 Data
+## data <- read.table("OTU-M6-filtered.txt", header=TRUE, sep="\t", row.names=1)
+
+
+
+
+### Check Data
+dim(data)
+data[1:5, 1:5]
+
+
+### 
+cols <- ncol(data)
+output <- cbind()
+
+for (i in 1:cols){
+v <- data[,i]
+total <- sum(v)
+# print(total)
+v <- (v*100)/total
+
+output <- cbind(output, v)
+
+}
+
+
+### Add Row and Column Names
+output <- cbind(rownames(data), output)
+output <- rbind(c("OTU", colnames(data)), output)
+
+output[1:5, 1:5]
+dim(output)
+
+
+
+
+
+## write.table(output, "OTU-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+## write.table(output, "OTU-D3-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+## write.table(output, "OTU-W3-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+## write.table(output, "OTU-M3-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+## write.table(output, "OTU-M6-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+
+
+###
+###

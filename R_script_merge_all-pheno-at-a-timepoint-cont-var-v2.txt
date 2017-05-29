@@ -1,0 +1,57 @@
+
+
+###
+###
+### Input file: P-C-O-F-G-OTU merged pheno files
+###             17 files
+###             a given time-point
+###
+###
+
+
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/DAY-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/WEEK-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-6")
+
+
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("SES-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("BirthWeight-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("GestationalAgecalculated-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("BMI-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Length12Month-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("BirthLength-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x7 <- read.table("motherageyear-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x8 <- read.table("InfantNeonatalSubscapularSkinfold-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x9 <- read.table("Maternal26weeksSubscapularSkinfold-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x10 <- read.table("InfantLengthGrowthTrajectory00to12months-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x11 <- read.table("Skinfolddifference00to18months-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x12 <- read.table("InfantWeight06Months-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x13 <- read.table("InfantWeight12Months-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x14 <- read.table("InfantWeightGain00to06Months-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x15 <- read.table("InfantWeightGain06to12months-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x16 <- read.table("Skinfoldat18months-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+ x17 <- read.table("SkinfoldatBirth-vs-all-level-Bacteria-Month6-Relative-Percent-Results.csv", skip=1, as.is=TRUE, sep=",")
+
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17)
+
+out <- cbind(out, "Month6")   ####>>>#### Ensure appropriate time-stamp here
+
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Pheno", "Timepoint")  ####>>>#### Change time-stamp here
+head(out)
+
+
+write.table(out, "Month6-Relative-Percent-vs-con-phenos-merged.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here
+
+
+
+###
+###

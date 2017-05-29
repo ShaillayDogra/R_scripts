@@ -1,0 +1,39 @@
+
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/1_PHYLUM")
+
+
+library(stats)
+
+
+data <- read.table("Phylum-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+head(data)
+
+tdata <- t(data)
+
+cols <- ncol(tdata)
+
+
+
+for (i in 1:1){
+for (j in 1:1){
+
+#rownames(data[i,])
+#rownames(data[j,])
+
+
+print(tdata[i,]/tdata[j,])
+
+
+}
+}
+
+
+
+
+
+
+
+

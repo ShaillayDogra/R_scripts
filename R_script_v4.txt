@@ -1,0 +1,112 @@
+
+
+setwd("D:/RRBS/UCSC-CPG-TABLE")
+
+## READ in CPG-ISLAND ANNOTATION
+cpgIsland <- read.table("UCS_hgTables_cpgIsland_mod.txt", header=TRUE)
+cpgrows <- nrow(cpgIsland)
+
+
+setwd("D:/RRBS/RRBS-mod")
+
+### READ in 1 SAMPLE FILE
+sample <- read.table("010_14020.txt")
+samplerows <- nrow(sample)
+
+
+test <- sample[1:100,]
+samplerows <- nrow(test)
+
+
+### DUMMY MATRIX TO STORE VALUES
+matrix <- matrix(-1, nrow=samplerows, ncol=2)
+
+islandCount = 0
+NshoreCount = 0
+NshelfCount = 0
+SshoreCount = 0
+SshelfCount = 0
+
+
+for (srow in 1:samplerows){    ## Start loop through sample rows
+for (crow in 1:cpgrows) {      ## Start another loop through CpG Annotation
+		
+if (test[srow,1]== cpgIsland[crow,1]) {   ### Match Chromsome
+	
+	ibp <- test[srow,2]   # input bp to check annotation
+	IslandStart<- cpgIsland[crow,4]
+	IslandEnd <- cpgIsland[crow,5]	
+	SShoreEnd <- cpgIsland[crow,6]
+	SShelfEnd <- cpgIsland[crow,7]
+	NShoreEnd <- cpgIsland[crow,3]
+	NShelfEnd <- cpgIsland[crow,2]
+
+	if (ibp >= IslandStart) {       ### BP is GTE to CpGIsland Start
+
+ 		if (ibp <= IslandEnd) {    ### BP is LTE to CpGIsland End
+ 		print ("Island")
+		matrix[srow, 1] <- "Island"		
+		islandCount = islandCount + 1
+		matrix[srow, 2] <- IslandEnd
+		} 
+
+		else if (ibp <= SShoreEnd) {    ### AND/OR BP is LTE to SShore End		
+		print ("SShoreEnd")
+		matrix[srow, 1] <- "SShoreEnd"
+		SshoreCount = SshoreCount + 1 
+		matrix[srow, 2] <- SShoreEnd
+
+		}
+
+		else if (ibp <= SShelfEnd) {    ### AND/OR BP is LTE to SShelf End
+		print ("SShelfEnd")
+		matrix[srow, 1] <- "SShelfEnd"
+		SshelfCount = SshelfCount + 1
+		matrix[srow, 2] <- SShelfEnd
+		}
+
+	
+	} ## END of IF - ibp >= IslandStart
+
+	
+
+	if (ibp < IslandStart) {       ### BP is GTE to CpGIsland Start
+ 
+		if (ibp >= NShoreEnd) {    ### AND/OR BP is GTE to NShore End		
+		print ("NShoreEnd")
+		matrix[srow, 1] <- "NShoreEnd"
+		NshoreCount = NshoreCount + 1 
+		matrix[srow, 2] <- NShoreEnd
+
+		}
+
+		else if (ibp >= NShelfEnd) {    ### AND/OR BP is GTE to NShelf End
+		print ("NShelfEnd")
+		matrix[srow, 1] <- "NShelfEnd"
+		NshelfCount = NshelfCount + 1
+		matrix[srow, 2] <- NShelfEnd
+		}
+
+	
+	} ## END of IF - ibp >= IslandStart
+
+	
+
+
+}   ### END of IF "Match Chromosome"
+
+}     ### END of for loop through CpG Annotation
+}     ### END of for loop through sample rows
+
+
+
+
+print (islandCount)
+print (NshoreCount)
+print (NshelfCount)
+print (SshoreCount)
+print (SshelfCount)
+
+
+# writedata <- cbind(test, matrix)
+# write.table(writedata, "sample1.txt")

@@ -1,0 +1,214 @@
+
+
+###
+### CHANGE timepoint
+###
+### CHANGE I/O Files: P-C-O-F-G-O
+### 
+### CHANGE Label File: P-C-O-F-G-O
+###
+###
+###
+
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/DAY-3")
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/WEEK-3")
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/MONTH-3")
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/MONTH-6")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+
+### CHANGE according to taxa-level working with!!!
+##
+y <- read.table("OTU.txt", header=TRUE)
+
+
+
+
+
+###
+### FUNCTION TO ADD LABEL
+###
+addlabel <- function(x1, y) {
+x2 <- x1[ do.call(order, x1), ] ### CAUTION - this ORDER is statisitcal function, not taxa level
+m1 <- match(y[,1],x2[,1])
+z1 <- rbind()
+n <- length(m1)
+for (i in 1:n){
+if (is.na(m1[i])==FALSE)
+	{ z1 <- rbind(z1, y[i,])
+  }
+}
+z2 <- z1[ do.call(order, z1), ]  ### CAUTION  - this ORDER is statisitcal function, not taxa level
+out <- cbind(x2, z2)
+out
+}
+###
+###
+###
+
+
+
+
+
+
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_18mth_totalqnanswered.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-QCHAT_18mth_totalqnanswered-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_18mth_Total.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-QCHAT_18mth_Total-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_18M_Factor_SocialComm.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-QCHAT_18M_Factor_SocialComm-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_18M_Factor_Behav.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-QCHAT_18M_Factor_Behav-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_18M_Factor_Language.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs--QCHAT_18M_Factor_Language-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_24mth_totalqnanswered.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-QCHAT_24mth_totalqnanswered-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_24_TOTAL.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-QCHAT_24_TOTAL-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_24M_Factor_SocialComm.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-QCHAT_24M_Factor_SocialComm-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_24M_Factor_Behav.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-QCHAT_24M_Factor_Behav-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-QCHAT_24M_Factor_Language.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-QCHAT_24M_Factor_Language-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-score_emotionallyreactive_rawtotal.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-score_emotionallyreactive_rawtotal-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-score_anxiousdepressed_rawtotal.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-score_anxiousdepressed_rawtotal-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-score_somaticcomplaints_rawtotal.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-score_somaticcomplaints_rawtotal-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-score_withdrawn_rawtotal.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-score_withdrawn_rawtotal-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-score_internalproblems_rawtotal.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-score_internalproblems_rawtotal-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-score_attentionproblems_rawtotal.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-score_attentionproblems_rawtotal-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-score_aggressivebehavior_rawtotal.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-score_aggressivebehavior_rawtotal-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-score_externalproblems_rawtotal.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-score_externalproblems_rawtotal-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-score_sleepproblems_rawtotal.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-score_sleepproblems_rawtotal-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Activity.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Activity-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Rhythmicity.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Rhythmicity-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Approach.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Approach-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Adaptability.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Adaptability-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Intensity.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Intensity-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Mood.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Mood-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Persistance.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Persistance-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Distractability.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Distractability-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Threshold.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Threshold-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_Sum.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_Sum-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_FAC1_P.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_FAC1_P-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_FAC2_P.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_FAC2_P-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth3Carey_FAC3_P.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth3Carey_FAC3_P-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth24Bay_Cog_Scaled.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth24Bay_Cog_Scaled-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth24Bay_Rec_Scaled.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth24Bay_Rec_Scaled-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth24Bay_Exp_Scaled.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth24Bay_Exp_Scaled-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth24Bay_Fine_Scaled.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth24Bay_Fine_Scaled-annotated.csv", sep=",", row.names=FALSE)
+
+x1 <- read.table("OTU-Month6-Relative-Percent-vs-mth24Bay_Gross_Scaled.csv", header=TRUE, as.is=TRUE, sep=",")
+out <- addlabel(x1, y)
+write.table(out, "OTU-Month6-Relative-Percent-vs-mth24Bay_Gross_Scaled-annotated.csv", sep=",", row.names=FALSE)
+
+
+###
+###
+###
+

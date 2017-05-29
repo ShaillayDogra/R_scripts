@@ -1,0 +1,84 @@
+
+
+
+#### WORKING DIRECTORY
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/FILES")
+
+
+
+
+
+rm(list=ls(all=TRUE))
+
+
+#### ALL-TIME
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-alltime.txt", header=TRUE, sep="\t", row.names=1)
+
+#### DAY-3
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-D3-v2.txt", header=TRUE, sep="\t", row.names=1)
+
+#### WEEK-3
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-W3-v2.txt", header=TRUE, sep="\t", row.names=1)
+
+#### MONTH-3
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M3-v2.txt", header=TRUE, sep="\t", row.names=1)
+
+#### MONTH-6
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M6-v2.txt", header=TRUE, sep="\t", row.names=1)
+
+
+
+
+### Check Data
+dim(data)
+data[1:5, 1:5]
+
+
+
+### FILTER OUT "SINGLETONS"
+cutoff = 1
+data[data <= cutoff] <- 0
+data[1:5, 1:5]
+
+
+
+### FILTER OUT BACTERIA IF ONLY ONE SAMPLE HAS READS (ie, if rowtotal=rowmax)
+### 
+rows <- nrow(data)
+output <- rbind(colnames(data))
+
+output <- rbind()
+
+for (i in 1:rows){
+v <- data[i,]
+maximum <- max(v)
+total <- sum(v)
+
+if(maximum>0){
+if (total > maximum){
+output <- rbind(output, v)
+}
+}
+}
+
+
+
+## CHECk
+dim(data)
+dim(output)
+
+head(output)
+tail(output)
+
+
+## write.table(output, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-alltime-filtered.txt", sep="\t", row.names = T)
+## write.table(output, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-D3-v2-filtered.txt", sep="\t", row.names = T)
+## write.table(output, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-W3-v2-filtered.txt", sep="\t", row.names = T)
+## write.table(output, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M3-v2-filtered.txt", sep="\t", row.names = T)
+## write.table(output, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M6-v2-filtered.txt", sep="\t", row.names = T)
+
+
+
+###
+###

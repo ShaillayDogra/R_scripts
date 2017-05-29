@@ -1,0 +1,194 @@
+
+
+
+### WORKING DIRECTORY
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/FILES")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+####--Alltime Data
+# data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-alltime-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+# phenodata <- read.table("alltime-samples-pheno.txt", header=TRUE, sep="\t", row.names=1)
+# list <- which(colnames(phenodata) %in% c("Timepoint"))
+
+
+
+####--Day3 Data
+# data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-D3-v2-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+# phenodata <- read.table("Day3-samples-pheno.txt", header=TRUE, sep="\t", row.names=1)
+# list <- which(colnames(phenodata) %in% c("Gender", "DeliveryMode", "Ethnicity", "Week1typeoffeeds", "AntibioticsLabour", "BirthOrder"))
+
+####--Week3 Data
+# data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-W3-v2-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+# phenodata <- read.table("Week3-samples-pheno.txt", header=TRUE, sep="\t", row.names=1)
+# list <- which(colnames(phenodata) %in% c("Gender", "DeliveryMode", "Ethnicity", "Week3typeoffeeds", "AntibioticsLabour", "BirthOrder"))
+
+####--Month3 Data
+# data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M3-v2-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+# phenodata <- read.table("Month3-samples-pheno.txt", header=TRUE, sep="\t", row.names=1)
+# list <- which(colnames(phenodata) %in% c("Gender", "DeliveryMode", "Ethnicity", "Month3typeoffeeds", "AntibioticsLabour", "BirthOrder"))
+
+
+####--Month6 Data
+# data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M6-v2-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+# phenodata <- read.table("Month6-samples-pheno.txt", header=TRUE, sep="\t", row.names=1)
+# list <- which(colnames(phenodata) %in% c("Gender", "DeliveryMode", "Ethnicity", "Month6typeoffeeds", "AntibioticsLabour", "BirthOrder"))
+
+
+
+
+### RESULTS DIRECTORY                                                        ####>>>#### CHANGE results directory HERE! 
+# setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/ALL-TIME")
+# setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/DAY-3")
+# setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/WEEK-3")
+# setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-3")
+# setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-6")
+
+
+
+### Check Data
+dim(data)
+dim(phenodata)
+data[1:5, 1:5]
+phenodata[1:5, 1:5]
+
+
+
+level <- c('Phylum', 'Class', 'Order', 'Family', 'Genus', 'OTU')
+
+## for testing
+## level <- 'Phylum'
+
+
+
+
+######
+####
+#### THIS FOR-LOOP FOR TAXA LEVELS
+#####
+for (idx in 1:length(level)){
+
+datalevel <- subset(data, data[,1] == level[idx])   ### SUBSET EACH TAXA
+tdata <- t(datalevel[,2:ncol(datalevel)])
+
+
+####
+####
+for (i in list){
+pheno <- phenodata[,i]
+phenochar <- as.character(phenodata[,i])
+phenoname <- colnames(phenodata)[i]
+taxa <- paste(idx,level[idx], sep=".")
+taxon <- level[idx]
+
+dostats <- function(pheno, tdata, phenoname, phenochar) {
+###--------------------------------#####
+dataAnova <- cbind(tdata, pheno)
+cols <- ncol(dataAnova)
+rows <- nrow(dataAnova)
+
+### TO STORE RESULTS
+result <- matrix(rep(NA, (cols)*12), ncol = 12)    ## CHECK repeat-dimensions
+
+### HEADER                                                                            ####>>>#### CHANGE time-string HERE!                 
+header <- paste(taxon,"Bacteria-Alltime-vs", phenoname, sep = "-")                       
+
+result[1, 1] <- header
+result[1, 2] <- "p-value"
+
+
+##
+### BEGIN ANOVA SECTION ###
+###
+#
+for (i in 1:(cols-1)) {     ### Last Column is Phenotype
+ydat <- dataAnova[,i]
+
+bacteria <- as.character(colnames(dataAnova)[i]) ### Get Hold of "Bacteria" name
+result[i+1, 1] <- bacteria       ### plus 1 as we use first-row to store col-headers
+
+model <- lm(ydat ~ pheno)
+anova(model)
+fita <- anova(model)
+pval <- fita$Pr[1]  ### Get Hold of ANOVA p-value
+result[i+1, 2] <- pval           ### plus 1 as we use first-row to store col-headers
+
+datastats <- cbind(ydat, phenochar)
+x <- unique(phenochar)
+len <- length(x)
+
+idx=2+1   ## as 2 columns used in result storage matrix
+for (k in 1:len){
+#print(x[k])
+datasubset <- subset(datastats[,1], datastats[,2] == x[k])
+avg <- mean(as.numeric(datasubset))
+sd <- sd(as.numeric(datasubset))
+result[i+1, idx] <- avg             ### plus 1 as we use first-row to store col-headers   
+result[1,idx] <- paste("Average", x[k], sep = "-")
+idx = idx+1
+result[i+1, idx] <- sd               ### plus 1 as we use first-row to store col-headers
+result[1,idx] <- paste("StdDev", x[k], sep = "-")
+idx = idx+1
+}
+
+
+
+   
+######  BOX-PLOTS   
+## if (pval<1){   
+outplot <- paste(phenoname,"-vs.", "-Alltime-", bacteria, ".jpeg", sep ="")               ####>>>#### CHANGE time-string HERE!
+title <- paste(taxon,"-Bacteria Alltime vs. ", phenoname, sep ="")                          ####>>>#### CHANGE time-string HERE!
+
+jpeg(file = outplot)
+require(stats)
+z <- ydat ~ pheno
+## BOXPLOT                                                        
+boxplot(z, boxfill=1:3, pch=1:5, lwd = 1.5, medcol="white", ylab=bacteria, xlab=phenoname, sub="Relative Percent", main=title)  
+dev.off()
+########### }
+
+
+}   ## END for LOOP
+#
+###
+### END ANOVA SECTION ###
+###
+
+
+### FDR CORRECTION
+rr <- nrow(result)
+fdrp <- p.adjust((result[2:rr,2]), method = "BH")   ### We are taking ANOVA p-value here to correct, ignore first row meant for col-header
+
+### CREATING OUTPUT
+output <- cbind(result[2:nrow(result),], fdrp)    
+output <- rbind(c(result[1,],"BH-FDR p-value"), output)
+
+### OUTPUT FILE                                                                         ####>>>#### CHANGE time-string HERE!!
+output_file <- paste(phenoname, "-vs-", taxa,"-level-Bacteria-Alltime-Relative-Percent-Results.csv", sep = "")    
+ 
+print(output_file)
+write.table(output, output_file, sep=",", row.names = F, col.names=F)
+
+###--------------------------------#####
+}
+
+
+dostats(pheno, tdata, phenoname, phenochar)
+
+}
+
+
+
+}   ## end-of-outermost-for loop that deals with taxa levels
+
+
+
+###############
+######################################
+
+
+

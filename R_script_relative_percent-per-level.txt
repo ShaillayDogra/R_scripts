@@ -1,0 +1,89 @@
+
+
+
+### WORKING DIRECTORY
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/FILES")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+##--All Data
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-alltime-filtered.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##--Day3 Data
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-D3-v2-filtered.txt", header=TRUE, sep="\t", row.names=1)
+
+##--Week3 Data
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-W3-v2-filtered.txt", header=TRUE, sep="\t", row.names=1)
+
+##--Month3 Data
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M3-v2-filtered.txt", header=TRUE, sep="\t", row.names=1)
+
+##--Month6 Data
+## data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M6-v2-filtered.txt", header=TRUE, sep="\t", row.names=1)
+
+
+
+
+### Check Data
+dim(data)
+data[1:5, 1:5]
+
+
+
+level <- c('Phylum', 'Class', 'Order', 'Family', 'Genus', 'OTU')
+table <- rbind(colnames(data[2:ncol(data)]))   ### Need to create this in order to append 'output' later
+
+
+for (idx in 1:length(level)){
+#print(level[idx])
+
+datalevel <- subset(data, data[,1] == level[idx])
+print(dim(datalevel))
+
+ 
+cols <- ncol(datalevel)
+output <- cbind()
+
+for (i in 2:cols){   ### SKIP first column called as Level
+v <- datalevel[,i]
+total <- sum(v)
+# print(total)
+v <- (v*100)/total
+output <- cbind(output, v)
+}
+
+table <- rbind(table, output)
+
+}   ## end-of-outer-for loop
+
+
+
+
+### Add Row and Column Names
+table2 <- cbind(rownames(data), as.character(data[,1]), table[2:nrow(table),])    ### Need to get rid of first row for cbind to match exact columns
+table2[1:5,1:5]
+
+table3 <- rbind(c("Bacteria", colnames(data)), table2)
+
+table3[1:10, 1:5]
+dim(data)
+dim(table3)
+
+
+
+## write.table(table3, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-alltime-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+## write.table(table3, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-D3-v2-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+## write.table(table3, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-W3-v2-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+## write.table(table3, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M3-v2-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+## write.table(table3, "Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M6-v2-relative-percent.txt", sep="\t", row.names = F, col.names=F)
+
+
+
+
+###
+###

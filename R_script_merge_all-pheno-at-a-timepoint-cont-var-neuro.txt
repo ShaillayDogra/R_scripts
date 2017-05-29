@@ -1,0 +1,73 @@
+
+
+###
+###
+### Input file: P-C-O-F-G-OTU merged pheno files
+###             17 files
+###             a given time-point
+###
+###
+
+
+
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/DAY-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/WEEK-3")
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/MONTH-3")
+ setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/ALL_TABLES/MONTH-6")
+
+
+rm(list=ls(all=TRUE))
+
+ x1 <- read.table("Month6-Relative-Percent-vs-QCHAT_18mth_totalqnanswered-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Month6-Relative-Percent-vs-QCHAT_18mth_Total-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Month6-Relative-Percent-vs-QCHAT_18M_Factor_SocialComm-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Month6-Relative-Percent-vs-QCHAT_18M_Factor_Behav-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x5 <- read.table("Month6-Relative-Percent-vs-QCHAT_18M_Factor_Language-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x6 <- read.table("Month6-Relative-Percent-vs-QCHAT_24mth_totalqnanswered-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x7 <- read.table("Month6-Relative-Percent-vs-QCHAT_24_TOTAL-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x8 <- read.table("Month6-Relative-Percent-vs-QCHAT_24M_Factor_SocialComm-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x9 <- read.table("Month6-Relative-Percent-vs-QCHAT_24M_Factor_Behav-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x10 <- read.table("Month6-Relative-Percent-vs-QCHAT_24M_Factor_Language-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x11 <- read.table("Month6-Relative-Percent-vs-score_emotionallyreactive_rawtotal-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x12 <- read.table("Month6-Relative-Percent-vs-score_anxiousdepressed_rawtotal-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x13 <- read.table("Month6-Relative-Percent-vs-score_somaticcomplaints_rawtotal-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x14 <- read.table("Month6-Relative-Percent-vs-score_withdrawn_rawtotal-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x15 <- read.table("Month6-Relative-Percent-vs-score_internalproblems_rawtotal-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x16 <- read.table("Month6-Relative-Percent-vs-score_attentionproblems_rawtotal-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x17 <- read.table("Month6-Relative-Percent-vs-score_aggressivebehavior_rawtotal-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x18 <- read.table("Month6-Relative-Percent-vs-score_externalproblems_rawtotal-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x19 <- read.table("Month6-Relative-Percent-vs-score_sleepproblems_rawtotal-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x20 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Activity-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x21 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Rhythmicity-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x22 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Approach-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x23 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Adaptability-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x24 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Intensity-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x25 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Mood-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x26 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Persistance-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x27 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Distractability-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x28 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Threshold-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x29 <- read.table("Month6-Relative-Percent-vs-mth3Carey_Sum-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x30 <- read.table("Month6-Relative-Percent-vs-mth3Carey_FAC1_P-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x31 <- read.table("Month6-Relative-Percent-vs-mth3Carey_FAC2_P-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x32 <- read.table("Month6-Relative-Percent-vs-mth3Carey_FAC3_P-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x33 <- read.table("Month6-Relative-Percent-vs-mth24Bay_Cog_Scaled-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x34 <- read.table("Month6-Relative-Percent-vs-mth24Bay_Rec_Scaled-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x35 <- read.table("Month6-Relative-Percent-vs-mth24Bay_Exp_Scaled-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x36 <- read.table("Month6-Relative-Percent-vs-mth24Bay_Fine_Scaled-annotated.csv", skip=1, as.is=TRUE, sep=",")
+ x37 <- read.table("Month6-Relative-Percent-vs-mth24Bay_Gross_Scaled-annotated.csv", skip=1, as.is=TRUE, sep=",")
+
+
+out <- rbind(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16, x17, x18, x19, x20, x21, x22, x23, x24, x25, x26, x27, x28, x29, x30, x31, x32, x33, x34, x35, x36, x37)
+
+
+out <- cbind(out, "Month6")   ####>>>#### Ensure appropriate time-stamp here
+
+
+colnames(out) <- c("Month6-Relative-Percent", "Spearman-Rank-Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value", "Taxon", "Bacteria", "rankID", "Level", "Pheno", "Timepoint")  ####>>>#### Change time-stamp here
+out
+
+write.table(out, "Month6-Relative-Percent-vs-neuro-phenos-merged.csv", sep=",", row.names=FALSE)     ####>>>#### Change time-stamp here
+
+
+
+

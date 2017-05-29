@@ -1,0 +1,154 @@
+
+
+
+rm(list=ls(all=TRUE))
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA")
+
+
+
+## source("http://bioconductor.org/biocLite.R")
+## biocLite()
+## biocLite("randomForest")
+## biocLite("Boruta")
+
+
+
+library("randomForest")
+library("Boruta")
+
+
+
+## DAY-3 DATA
+## data <- read.table("Day3-all-taxa-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## cat <- read.table("Day3-pheno-categorical.txt", header=TRUE, sep="\t", row.names=1)
+## con <- read.table("Day3-pheno-continuous.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##
+## WEEK-3 DATA
+## data <- read.table("Week3-all-taxa-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## cat <- read.table("Week3-pheno-categorical.txt", header=TRUE, sep="\t", row.names=1)
+## con <- read.table("Week3-pheno-continuous.txt", header=TRUE, sep="\t", row.names=1)
+
+##
+## MONTH-3 DATA
+## data <- read.table("Month3-all-taxa-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## cat <- read.table("Month3-pheno-categorical.txt", header=TRUE, sep="\t", row.names=1)
+## con <- read.table("Month3-pheno-continuous.txt", header=TRUE, sep="\t", row.names=1)
+
+##
+## MONTH-6 DATA
+## data <- read.table("Month6-all-taxa-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## cat <- read.table("Month6-pheno-categorical.txt", header=TRUE, sep="\t", row.names=1)
+## con <- read.table("Month6-pheno-continuous.txt", header=TRUE, sep="\t", row.names=1)
+
+
+
+####
+dim(data)
+data[1:5, 1:5]
+cols <- ncol(data)
+
+
+
+### BACTERIA SUBSET OF DATA
+## Day3
+## dataRF <- data[, 1: 69]
+## Week3
+## dataRF <- data[,1:76]
+## Month3
+## dataRF <- data[,1:85]
+## Month6
+## dataRF <- data[,1:77]
+
+
+
+##
+#### List of Phenotypes - Continuous Variables
+## For testing
+##list <- which(colnames(data) %in% c("BirthWeight", "SubscapularSkinfoldaverageChild"))
+##
+
+list <- which(colnames(con) %in% c("SES", "BirthWeight", "GestationalAgecalculated", "BMI", 
+"Length12Month", "BirthLength", "motherageyear", "InfantNeonatalSubscapularSkinfold", "Maternal26weeksSubscapularSkinfold", 
+"InfantLengthGrowthTrajectory00to12months", "Skinfolddifference00to18months", "InfantWeight06Months", 
+"InfantWeight12Months", "InfantWeightGain00to06Months", "InfantWeightGain06to12months", "Skinfoldat18months", "SkinfoldatBirth"))
+
+print(length(list))
+
+
+
+#### For testing
+##  list <- which(colnames(con) %in% c("Skinfoldat18months"))
+
+
+
+### setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/RANDOM-FOREST/CASE-A/DAY-3")    ####>>>>####  CHANGE HERE!!
+### setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/RANDOM-FOREST/CASE-A/WEEK-3")    ####>>>>####  CHANGE HERE!!
+### setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/RANDOM-FOREST/CASE-A/MONTH-3")    ####>>>>####  CHANGE HERE!!
+### setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/RESULTS/RANDOM-FOREST/CASE-A/MONTH-6")    ####>>>>####  CHANGE HERE!!
+
+
+
+
+###
+### LOOP ALL LIST
+###
+for (idx in 1:length(list)){
+phenoname <- colnames(con[list[idx]])
+print(phenoname)
+pheno <- con[,list[idx]]
+#print(length(na.omit(pheno)))
+
+trees <- 500
+trys <- ncol(dataRF)/3
+
+data.rf <- randomForest(pheno ~ ., data=dataRF, importance=TRUE, proximity=TRUE, na.action=na.omit, ntree=trees, mtry=trys, replace=TRUE, localImp=TRUE, norm.votes=TRUE, do.trace=FALSE, keep.forest=TRUE, keep.inbag=TRUE)
+print(data.rf)
+
+
+outplot <- paste(phenoname,"-RandomForest-results-", "Month6", ".jpeg", sep ="")                  ####>>>>####  CHANGE time-string HERE!!
+title <- paste("Bacteria-Month6-RandomForest-", phenoname,sep ="")                                             ####>>>>####  CHANGE time-string HERE!!
+jpeg(file = outplot,  width = 900, height = 900)
+plot(pheno, predict(data.rf, dataRF), col="blue", xlab="actual", ylab="predicted", main=title, sub=phenoname)
+dev.off()
+
+
+outplot <- paste(phenoname,"-RandomForest-creation-", "Month6", ".jpeg", sep ="")              ####>>>>####  CHANGE time-string HERE!!
+title <- paste("Bacteria-Month6-RandomForest-", phenoname,sep ="")                                             ####>>>>####  CHANGE time-string HERE!!
+jpeg(file = outplot,  width = 900, height = 900)
+plot(data.rf)
+dev.off()
+
+
+outplot <- paste(phenoname,"-RandomForest-VIP-", "Month6", ".jpeg", sep ="")   ####>>>>####  CHANGE time-string HERE!!
+title <- paste("Bacteria-Month6-RandomForest-", phenoname,sep ="")                                             ####>>>>####  CHANGE time-string HERE!!
+jpeg(file = outplot,  width = 1500, height = 900)
+varImpPlot(data.rf, sort=TRUE, main="Variable Importance of each factor")
+dev.off()
+
+}
+
+
+
+
+
+
+#### treesize(data.rf, terminal=TRUE)
+#### hist(treesize(data.rf))
+#### NA for REGRESSION ##### plot(margin(data.rf))
+#### NA for REGRESSION ##### plot(outlier(data.rf), type="h", col=c("red", "green", "blue")[as.numeric(pheno)])
+
+## round(importance(data.rf), 2)
+## MDSplot(data.rf, pheno)
+
+
+
+#### BORUTA FEATURE SELECTION
+## borutarun <- Boruta(pheno~.,data=dataRF,doTrace=2,maxRuns = 2500)
+## print(borutarun)
+## plot(borutarun, sort=TRUE)
+
+
+

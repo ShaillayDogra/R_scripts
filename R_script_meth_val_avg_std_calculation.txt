@@ -1,0 +1,37 @@
+
+###
+###
+###
+
+### SET the WORKING DIR
+setwd("D:/SHAILLAY/METHYLATION-BIOMARKER/CHR21")
+
+### cLEAN SLATE
+rm(list=ls(all=TRUE))
+
+### READ the DATA FILE with METHYLATION VALUES for ALL SAMPLES
+meth <-  read.table("met_vals_chr21.txt", header=TRUE)
+#head(meth)
+
+### CREATE a MATRIX to STORE AVERAGE METHYLATION VALUES
+dim = nrow(meth)
+methmatrix <- matrix(-1, nrow=dim, ncol=2)
+
+### AVERAGE the METHYLATION VALUES for SAMPLES
+for (i in 1:dim) {
+mean = mean(as.numeric(meth[i, 2:57]))
+sd = sd(as.numeric(meth[i, 2:57]))
+
+methmatrix[i,1] = mean
+methmatrix[i,2] = sd
+}
+
+
+cpgs <- as.matrix(meth[,1])
+data <- cbind(cpgs, methmatrix)
+data <- rbind( c("cpg", "avg", "sd"), data)
+
+write.table(data, "meth-avg-sd-values-21.txt")
+
+
+

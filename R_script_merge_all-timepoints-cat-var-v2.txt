@@ -1,0 +1,37 @@
+
+
+###
+###
+### Input file: P-C-O-F-G-OTU merged pheno files
+###             17 files
+###             a given time-point
+###
+###
+
+
+
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/ALL-TIME")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+ x1 <- read.table("Day3-Relative-Percent-vs-cat-phenos-merged.csv", skip=1, as.is=TRUE, sep=",")
+ x2 <- read.table("Week3-Relative-Percent-vs-cat-phenos-merged.csv", skip=1, as.is=TRUE, sep=",")
+ x3 <- read.table("Month3-Relative-Percent-vs-cat-phenos-merged.csv", skip=1, as.is=TRUE, sep=",")
+ x4 <- read.table("Month6-Relative-Percent-vs-cat-phenos-merged.csv", skip=1, as.is=TRUE, sep=",")
+
+out <- rbind(x1, x2, x3, x4)
+head(out)
+
+
+ x1 <- read.table("Day3-Relative-Percent-vs-cat-phenos-merged.csv", header=TRUE, as.is=TRUE, sep=",")
+ l <- colnames(x1)
+
+colnames(out) <- c("Bacteria", l[-1])
+
+head(out)
+
+write.table(out, "Bacteria-Relative-Percent-vs-cat-phenos-merged-all-timepoints.csv", sep=",", row.names=FALSE)    

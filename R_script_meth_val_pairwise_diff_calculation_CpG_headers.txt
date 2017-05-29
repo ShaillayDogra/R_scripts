@@ -1,0 +1,87 @@
+
+###
+###
+###
+
+### SET the WORKING DIR
+setwd("D:/SHAILLAY/METHYLATION-BIOMARKER")
+
+### CLEAN SLATE
+rm(list=ls(all=TRUE))
+
+### READ the DATA FILE with METHYLATION VALUES for ALL SAMPLES
+meth <-  read.table("met_vals_chr21.txt", header=TRUE)
+cpgs <- as.matrix(meth[,1])
+
+
+### CREATE a MATRIX to STORE AVERAGE METHYLATION VALUES
+dim = nrow(meth)
+methmatrix <- matrix(-1, nrow=dim, ncol=3)
+
+
+### AVERAGE the METHYLATION VALUES for SAMPLES
+for (i in 1:dim) {
+cpg = cpgs[i,1]
+mean = mean(as.numeric(meth[i, 2:57]))
+stddev = sd(as.numeric(meth[i, 2:57]))
+
+methmatrix[i,1] <- cpg
+methmatrix[i,2] <- mean
+methmatrix[i,3] <- stddev
+}
+
+## TEST
+# methmatrix[1:10, ]
+#
+
+
+### SOME QC PLOTS
+#avg <- methmatrix[,2]
+#sd <- methmatrix[,3]
+#plot(avg, sd)
+#hist(avg)
+#hist(sd)
+
+
+### CREATE a n*n MATRIX to STORE PAIRWISE DIFFERENCE VALUES
+dim = nrow(meth) + 1
+diffmatrix <- matrix(-1, nrow=dim, ncol=dim)
+
+
+### ROW and COLUMN HEADERS of PAIRWISE CPGs
+for (row in 2:dim) {
+print (row)
+for (col in 2:dim) {
+diffmatrix[row,1] <- cpgs[row-1, 1]
+diffmatrix[1,col] <- cpgs[col-1, 1]
+}
+}
+
+## TEST
+# diffmatrix[1:10, 1:10]
+#
+
+
+dim = nrow(meth) 
+
+### The FOR LOOP
+for (row in 1:dim) {
+print(row)
+#print(methmatrix[row, 1]) # PRINT the CPG
+
+for (col in 1:dim) {
+difference = as.numeric(methmatrix[col, 2]) - as.numeric(methmatrix[row, 2])  # COLUMN 2 has AVG-METH VALUES
+diffmatrix[row+1, col+1] = abs(difference)
+}
+}
+
+
+### TEST
+# diffmatrix[1:10, 1:10]
+#
+
+
+write.table(diffmatrix, "pairwise-meth-differences-chr21.txt")
+
+
+

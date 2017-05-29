@@ -1,0 +1,62 @@
+
+### SET WORKING-DIR
+setwd("D:/METHYLATION-BIOMARKER/CHR21")
+
+### START CLEAN
+rm(list=ls(all=TRUE))
+
+### READ the COORDINATE FILE
+coord <- read.table("cpg_coord_chr21-v3.txt", header=TRUE)
+values <- read.table("meth-avg-sd-values-21.txt", header=TRUE)
+
+relation <- as.matrix(coord[,3])
+reference <- as.matrix(coord[,4]) 
+
+
+### A DUMMY MATRIX to GET ALL the LINEAR COORDINATES 
+dim=nrow(coord)
+matrix <- matrix(0, nrow=dim, ncol=6)
+# dim(matrix)
+
+
+### POP the CPG COORDINATES and VALUES at COORESPONDING LINEAR COORDINATE
+iter = nrow(coord)
+
+##
+for (k in 1:iter){
+print (k)
+cpg <- coord[k,2]
+type <- relation[k,1]
+location <- reference[k,1]
+avg <- values[k,2]
+sd <- values[k,3]
+
+if(avg >= 0.7){label <- "M"}
+else if(avg <= 0.3){label <- "U"}
+else {label <- "I"}
+
+matrix[k,1] <- cpg
+matrix[k,2] <- avg
+matrix[k,3] <- sd
+matrix[k,4] <- label
+matrix[k,5] <- type
+matrix[k,6] <- location
+
+#print(label)
+#print(type)
+#print(location)
+
+}
+
+
+###
+###
+
+
+
+### WRITE the MATRIX to a FILE
+matrix <- rbind( c("bp","avg", "sd", "label", "type", "loc")  , matrix)
+write.table(matrix, "chr_21_cpg_coords_vals_tmp.txt")
+
+
+

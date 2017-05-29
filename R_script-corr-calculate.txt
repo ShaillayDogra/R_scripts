@@ -1,0 +1,165 @@
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+##### Phylum
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/1_PHYLUM")
+## data <- read.table("Phylum-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Phylum-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Phylum-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Phylum-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### Class
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/2_CLASS")
+## data <- read.table("Class-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Class-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### Order
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/3_ORDER")
+## data <- read.table("Order-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Order-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### Family
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/4_FAMILY")
+## data <- read.table("Family-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Family-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### Genus
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/5_GENUS")
+## data <- read.table("Genus-QCed-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("Genus-QCed-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+##### OTU
+## setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V456/TAXA/OTU")
+## data <- read.table("OTU-D3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-W3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-M3-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+## data <- read.table("OTU-M6-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+
+
+
+head(data)
+tail(data)
+
+
+##### TRANSPOSE
+tdata <- t(data)
+head(tdata)
+tail(tdata)
+
+n <- ncol(tdata)
+cols <- ncol(tdata)
+
+resultpc <- matrix(rep(NA, cols*n), ncol = n) 
+resultsc <- matrix(rep(NA, cols*n), ncol = n) 
+
+
+###
+for (i in 1:n){
+for (j in 1:n){
+pc <- cor(tdata[,i],tdata[,j], method="pearson", use="pairwise.complete.obs")
+sc <- cor(tdata[,i],tdata[,j], method="spearman", use="pairwise.complete.obs")
+resultpc[i,j] <- pc
+resultsc[i,j] <- sc
+}
+}
+
+
+rpc <- rbind(rownames(data), resultpc)
+rsc <- rbind(rownames(data), resultsc)
+
+
+count <- ("Count")
+for (i in 1:n){
+nonzero <- length(tdata[,i][tdata[,i] > 0])
+count <- c(count, nonzero)
+}
+
+
+header <- rownames(data)
+rpc <- cbind(c("Bacteria",header), rpc, count)
+rsc <- cbind(c("Bacteria",header), rsc, count)
+
+
+
+
+## Day3
+# write.table(rpc, "Phylum-rpc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Phylum-rsc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Class-rpc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Class-rsc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Order-rpc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Order-rsc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Family-rpc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Family-rsc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Genus-rpc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Genus-rsc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "OTU-rpc-D3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "OTU-rsc-D3.csv", sep=",", row.names=F, col.names=F)
+
+
+
+## Week3
+# write.table(rpc, "Phylum-rpc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Phylum-rsc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Class-rpc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Class-rsc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Order-rpc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Order-rsc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Family-rpc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Family-rsc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Genus-rpc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Genus-rsc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "OTU-rpc-W3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "OTU-rsc-W3.csv", sep=",", row.names=F, col.names=F)
+
+
+
+## Month3
+# write.table(rpc, "Phylum-rpc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Phylum-rsc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Class-rpc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Class-rsc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Order-rpc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Order-rsc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Family-rpc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Family-rsc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Genus-rpc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Genus-rsc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "OTU-rpc-M3.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "OTU-rsc-M3.csv", sep=",", row.names=F, col.names=F)
+
+
+
+## Month6
+# write.table(rpc, "Phylum-rpc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Phylum-rsc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Class-rpc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Class-rsc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Order-rpc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Order-rsc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Family-rpc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Family-rsc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "Genus-rpc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "Genus-rsc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rpc, "OTU-rpc-M6.csv", sep=",", row.names=F, col.names=F)
+# write.table(rsc, "OTU-rsc-M6.csv", sep=",", row.names=F, col.names=F)
+
+
+

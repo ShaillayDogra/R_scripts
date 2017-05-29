@@ -1,0 +1,41 @@
+###
+###
+###
+
+
+### SET WORKING DIRECTORY
+setwd("D:/SHAILLAY/METHYLATION-BIOMARKER")
+
+### CLEAN SLATE
+rm(list=ls(all=TRUE))
+
+### READ THE FILE with CPGs and x,y PAIRS of DIFFERENCES in DISTANCE and METHYLATION
+data <- read.table("pairwise_distance-methylation_difference-chr21-tmp.txt", header=TRUE, as.is=TRUE)
+
+### READ THE FILE with CPG ANNOTATION - ALL the CPGs under ONE FLAG
+cpgannot <- read.table("ANNOTATIONS/N_shore-Chr21.txt", header=TRUE, as.is=TRUE)
+cpgannot <- as.matrix(cpgannot)
+
+
+### FOR TEST
+subset <- data[1:10000, ]
+subset[1,1]
+data <- subset
+###
+
+size = nrow(data)
+total = nrow(cpgannot)
+
+for (idx in 1:total){
+cpg <- cpgannot[idx]
+print(cpg)
+
+for (row in 1:size){
+data[row, 1] <- sub(cpg, "N_shore", data[row, 1])
+}
+}
+
+
+write.table(data, "pairwise_distance-methylation_difference-chr21-cpg-annotated.txt")
+
+

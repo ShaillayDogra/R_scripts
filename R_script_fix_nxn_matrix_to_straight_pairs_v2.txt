@@ -1,0 +1,100 @@
+###
+###
+###
+
+
+### SET WORKING DIRECTORY
+setwd("D:/SHAILLAY/METHYLATION-BIOMARKER/CHR21")
+
+### CLEAN SLATE
+rm(list=ls(all=TRUE))
+
+
+### READ the DATA FILES with DISTANCES and VALUES
+dist <- read.table("pairwise-CpG-distances-chr21-CpG-headers.txt", header = FALSE)   # BRING IN CPG HEADER AS ROW#1 ON PURPOSE
+meth <- read.table("pairwise-meth-differences-chr21-annotated-header.txt", header = FALSE)   # BRING IN CPG HEADER AS ROW#1 ON PURPOSE, OR WITH ANY ANNOTATION FLAG
+
+## TEST
+# dist <- dist[1:10, 1:10]
+# meth <- meth[1:10, 1:10]
+#
+
+### GET HOLD OF CPG LABELS
+cpgrowdist <- as.matrix(dist[ ,1])
+cpgcoldist <- as.matrix(dist[1, ])
+cpgrowmeth <- as.matrix(meth[ ,1])
+cpgcolmeth <- as.matrix(meth[1, ])
+
+
+### FOR LOOP to PUT CORRESPONDING DISTANCES and METHYLATION VALUES TOGETHER
+### IN A 1-COLUMN-FOR-EACH-VALUE MATRIX INSTEAD OF ORIGINAL nxn MATRIX
+
+### CREATE A DUMMY MATRIX to HOLD ACTUAL VALUES LATER
+dim = nrow(dist)
+rows = (dim * dim)/2
+cols = 4
+matrix <- matrix(-1, nrow=rows, ncol=cols)  ## A -1 FLAG IS EASY SPOT IF THINGS WENT WRONG
+
+## TEST
+# matrix[1:10, ]
+#
+
+
+## FIX FORMATS
+dist <- as.matrix(dist)
+meth <- as.matrix(meth)
+
+
+iter = nrow(dist)
+idx = 1
+
+#iter = 10
+
+##
+### START LOOP
+##
+for (row in 2:iter){       #SKIP THE CPG; ROW#1 with CPG
+print(row)
+for (col in 2:iter){       #SKIP THE CPG; COL#1 with CPG
+
+if (col >= row){  # ONLY DO HALF OF THE nxn MATRIX
+
+distval <- abs(as.numeric(dist[row,col]))
+methval <- abs(as.numeric(meth[row,col]))
+
+distcpgs <- paste(cpgrowdist[row,1], cpgcoldist[1,col], sep="_") 
+methcpgs <- paste(cpgrowmeth[row,1], cpgcolmeth[1,col], sep="_")
+
+matrix[idx,1] <- distcpgs
+matrix[idx,2] <- methcpgs
+matrix[idx,3] <- distval
+matrix[idx,4] <- methval
+
+#matrix[idx,5] <- cpgrowdist[row,1]
+#matrix[idx,6] <- cpgcoldist[1,col]
+#matrix[idx,7] <- cpgrowmeth[row,1]
+#matrix[idx,8] <- cpgcolmeth[1,col]
+
+idx = idx + 1
+}  # END of if
+}  # END of for (col)
+}  # END of for (row)
+
+
+
+## TEST
+# matrix[1:100, ]
+#
+
+
+
+### SCATTER-PLOT
+n = 50
+pairwise_distance <- abs(as.numeric(matrix[1:n,7]))
+methylation_difference <- abs(as.numeric(matrix[1:n,8]))
+plot(pairwise_distance, methylation_difference)
+
+
+n = 1000000
+write.table(matrix[1:n,], "pairwise_distance-methylation_difference-chr21-tmp.txt")
+

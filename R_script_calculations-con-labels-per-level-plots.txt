@@ -1,0 +1,211 @@
+
+
+
+### WORKING DIRECTORY
+setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/FILES")
+
+
+
+rm(list=ls(all=TRUE))
+
+
+
+####--Day3 Data
+# data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-D3-v2-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+# phenodata <- read.table("Day3-samples-pheno-v2.txt", header=TRUE, sep="\t", row.names=1)
+
+####--Week3 Data
+# data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-W3-v2-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+# phenodata <- read.table("Week3-samples-pheno-v2.txt", header=TRUE, sep="\t", row.names=1)
+
+####--Month3 Data
+# data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M3-v2-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+# phenodata <- read.table("Month3-samples-pheno-v2.txt", header=TRUE, sep="\t", row.names=1)
+
+####--Month6 Data
+# data <- read.table("Run1_V123_tax_RDP_v2_received_240713-mod-QCed-M6-v2-relative-percent.txt", header=TRUE, sep="\t", row.names=1)
+# phenodata <- read.table("Month6-samples-pheno-v2.txt", header=TRUE, sep="\t", row.names=1)
+
+
+
+
+
+
+### Check Data
+dim(data)
+dim(phenodata)
+
+data[1:5, 1:5]
+phenodata[1:5, 1:5]
+
+
+### Test sample alignment
+ncol <- ncol(data)
+tdata <- t( data[,2:ncol])
+datasamples <- tdata[,1:1]
+phenosamples <- phenodata[,1:2]
+test <- cbind(datasamples, phenosamples)
+test
+
+
+
+
+##
+#### List of Phenotypes - Continuous Variables
+##
+## list <- which(colnames(phenodata) %in% c("SES", "BirthWeight", "GestationalAgecalculated", "BMI", 
+## "Length12Month", "BirthLength", "motherageyear", "InfantNeonatalSubscapularSkinfold", "Maternal26weeksSubscapularSkinfold", 
+## "InfantLengthGrowthTrajectory00to12months", "Skinfolddifference00to18months", "InfantWeight06Months", 
+## "InfantWeight12Months", "InfantWeightGain00to06Months", "InfantWeightGain06to12months", "Skinfoldat18months", "SkinfoldatBirth"))
+
+### For testing
+## list <- which(colnames(phenodata) %in% c("BirthWeight"))
+
+
+list <- which(colnames(phenodata) %in% c("InfantNeonatalSubscapularSkinfold", "Maternal26weeksSubscapularSkinfold", "BirthLength", "Length12Month",
+"SkinfoldatBirth", "Skinfoldat18months", "InfantWeight06Months", "InfantWeight12Months", "BirthWeight", "motherageyear", "GestationalAgecalculated",
+"BMI", "SES", "InfantLength12mtobirthdifference", "InfantLength12mtobirthrelativepercentdifference", "InfantLength12mtobirthratiox100",
+"Skinfold18mtobirthdifference", "Skinfold18mtobirthabsdifference", "Skinfold18mtobirthrelativepercentdifference", "Skinfold18mtobirthabsrelativepercentdifference",
+"Skinfold18mtobirthratiox100", "Infantweight6mBirthweightdifference", "Infantweight6mBirthweightrelativepercentdifference", "Infantweight6mBirthweightratiox100",
+"Infantweight12m6mdifference", "Infantweight12m6mrelativepercentdifference", "Infantweight12m6mratiox100", "Infantweight12mbirthdifference", "Infantweight12mbirthrelativepercentdifference",
+"Infantweight12mbirthratiox100"))
+
+
+list
+print(length(list))
+
+
+
+
+
+
+
+
+### RESULTS DIRECTORY                                                        ####>>>#### CHANGE results directory HERE! 
+# setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/DAY-3")
+# setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/WEEK-3")
+# setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-3")
+# setwd("D:/NESTLE-EPIGEN/MICRIBIOTA/MAY-DATA/NESTLE-V123/MONTH-6")
+
+
+
+
+level <- c('Phylum', 'Class', 'Order', 'Family', 'Genus', 'OTU')
+### for testing
+## level <- 'Phylum'
+
+
+
+
+
+######
+####
+#### THIS FOR-LOOP FOR TAXA LEVELS
+#####
+for (idx in 1:length(level)){
+
+datalevel <- subset(data, data[,1] == level[idx])   ### SUBSET EACH TAXA
+tdata <- t(datalevel[,2:ncol(datalevel)])
+
+####
+####
+for (i in list){
+pheno <- phenodata[,i]
+phenoname <- colnames(phenodata)[i]
+taxa <- paste(idx,level[idx], sep=".")
+taxon <- level[idx]
+
+dostats <- function(pheno, tdata, phenoname) {
+###--------------------------------#####
+dataAnova <- cbind(tdata, pheno)
+cols <- ncol(dataAnova)
+rows <- nrow(dataAnova)
+
+### TO STORE RESULTS
+n = 5 ## CHECK repeat-dimensions
+result <- matrix(rep(NA, (cols-1)*n), ncol = n)  
+
+### HEADER                                                                            ####>>>#### CHANGE time-string HERE!                 
+header <- paste(taxon,"Bacteria-Month6-vs", phenoname, sep = "-")                       
+
+result[1, 1] <- header
+result[1, 2] <- "p-value"
+
+
+###
+### BEGIN ANOVA SECTION ###
+###
+#
+for (i in 1:(cols-1)) {      ### Last Column is Phenotype
+ydat <- dataAnova[,i]
+length(ydat)
+
+bacteria <- as.character(colnames(dataAnova)[i])   ### Get Hold of "Bacteria" name
+result[i, 1] <- bacteria
+
+model <- lm(ydat ~ pheno)
+anova(model)
+fita <- anova(model)
+result[i, 5] <- fita$Pr[1]  ### Get Hold of ANOVA p-value, check col idx as you want in output
+
+fit <- summary(model)
+nr <- nrow(fit$coeff)
+#print(fit$coeff[2,1])
+
+correlation <- cor(ydat, pheno, method="spearman", use="pairwise.complete.obs")     ## Spearman-Rank-Correlation; use pairwise-observations excluding NA
+result[i, 2] <- correlation  ### Get Hold of correlation, check col idx as you want in output
+result[i, 3] <- fit$r.squared  ### Get Hold of R-squared, check col idx as you want in output
+result[i, 4] <- fit$coeff[2,1]
+
+
+####  PLOT
+## if (pval<1){ 
+outplot <- paste(phenoname,"-vs.-Month6-", bacteria, ".jpeg", sep ="")                           ####>>>>####  CHANGE time-string HERE!!
+title <- paste(bacteria, "-Month6-vs-", phenoname,sep ="")                                             ####>>>>####  CHANGE time-string HERE!!
+jpeg(file = outplot)
+x <- ydat
+y <- pheno
+plot(x,y, xlab=bacteria, ylab=phenoname, main=title, sub="Relative Percent", type="p", col="red", col.main= "blue", col.sub = "red") 
+dev.off()
+## }
+
+
+
+
+
+}   ## END OUTER for LOOP
+#
+###
+### END ANOVA SECTION ###
+###
+
+
+### FDR CORRECTION
+fdrp <- p.adjust((result[,5]), method = "BH")   ### We are taking ANOVA p-value here to correct, check col idx!!
+
+### CREATING OUTPUT
+output <- cbind(result, fdrp)
+output <- rbind(c("Bacteria-Month6", "Spearman-Rank Correlation", "R-squared", "Coefficient", "p-value", "BH-FDR p-value"), output)        ####>>>#### CHANGE time-string HERE!!
+
+   
+### OUTPUT FILE                                                                                  ####>>>#### CHANGE time-string HERE!!
+output_file <- paste(phenoname, "-vs-", taxa,"-level-Bacteria-Month6-Relative-Percent-Results.csv", sep = "")    
+print(output_file)
+######### write.table(output, output_file, sep=",", row.names=F, col.names=F)
+
+###--------------------------------#####
+}
+
+
+dostats(pheno, tdata, phenoname)
+}
+
+}   ## end-of-outermost-for loop that deals with taxa levels
+
+
+
+###############
+######################################
+
+
+
